@@ -16,13 +16,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+Route::middleware('layout:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
 Route::post('/register', [AuthController::class, 'register']);
 
-Route::get('/getUsers', [AuthController::class, 'getUsers']);
+Route::post('/login', [AuthController::class, 'login']);
+
+Route::get('/get', [AuthController::class, 'get']);
 
 Route::delete('/delete/user/{id}', [AuthController::class, 'deleteUser']);
 
