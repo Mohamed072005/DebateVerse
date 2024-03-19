@@ -22,6 +22,10 @@
             z-index: 1000;
         }
 
+        .debate-actions:hover {
+            background-color: #b1b2bf;
+        }
+
         main {
             margin-top: 100px;
         }
@@ -135,6 +139,44 @@
                 <li><a class="dropdown-item" href="">Logout</a></li>
                 <li><a class="dropdown-item" href="">Login</a></li>
             </ul>
+        </div>
+        <div class="offcanvas-content d-block d-md-none">
+            <button class="btn btn-secondary d-flex justify-content-center" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">
+                <i class="fa fa-bars burger-menu" aria-hidden="true"></i>
+                </button>
+        </div>
+
+        <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasScrollingLabel">YouEvent</h5>
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <div class="">
+                    <aside class="aside p-2">
+                                <div class="">
+                                    <a class="navbar-brand" href="">
+                                        <h4 class="">Admin Dashboard</h4>
+                                    </a>
+                                </div>
+                        <div class="">
+                            <a class="navbar-brand" href="">
+                                <h4 class="">Dashboard</h4>
+                            </a>
+                        </div>
+                        <div class="">
+                            <a class="navbar-brand" href="">
+                                <h4 class="">Categories</h4>
+                            </a>
+                        </div>
+                        <div class="">
+                            <a class="navbar-brand" href="">
+                                <h4 class="">Your Tickets</h4>
+                            </a>
+                        </div>
+                    </aside>
+                </div>
+            </div>
         </div>
     </div>
 </header>
