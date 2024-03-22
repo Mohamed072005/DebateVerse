@@ -116,13 +116,28 @@
             border-radius: 0.25rem;
         }
 
+        .aside div {
+            height: 50px;
+            width: 100%;
+            margin-bottom: 10px;
+            border-radius: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .aside div:hover {
+            background-color: #e2e8f0;
+            color: #1a202c;
+        }
+
     </style>
 </head>
 <body>
 <header class="p-2 navBar mb-3">
     <div class="container d-flex justify-content-between align-items-center">
         <div class="w-25">
-            <a href="" class="navbar-brand">
+            <a href="{{ route('home') }}" class="navbar-brand">
                 <h2 class="text-primary">Debate<span class="text-dark">Verse</span></h2>
             </a>
         </div>
@@ -138,6 +153,13 @@
                 </li>
                 <li><a class="dropdown-item" href="">Logout</a></li>
                 <li><a class="dropdown-item" href="">Login</a></li>
+                <li>
+                    <div class="offcanvas-content">
+                            <button class="dropdown-item" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">
+                            Aside
+                        </button>
+                    </div>
+                </li>
             </ul>
         </div>
         <div class="offcanvas-content d-block d-md-none">
@@ -148,25 +170,15 @@
 
         <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
             <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="offcanvasScrollingLabel">YouEvent</h5>
+                <h5 class="offcanvas-title" id="offcanvasScrollingLabel">DebateVerse</h5>
                 <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body">
                 <div class="">
                     <aside class="aside p-2">
-                                <div class="">
-                                    <a class="navbar-brand" href="">
-                                        <h4 class="">Admin Dashboard</h4>
-                                    </a>
-                                </div>
                         <div class="">
-                            <a class="navbar-brand" href="">
+                            <a class="navbar-brand" href="{{ route('dashboard') }}">
                                 <h4 class="">Dashboard</h4>
-                            </a>
-                        </div>
-                        <div class="">
-                            <a class="navbar-brand" href="">
-                                <h4 class="">Categories</h4>
                             </a>
                         </div>
                         <div class="">
@@ -192,7 +204,7 @@
                             <div class="">
                                 <a href="" class="navbar-brand">
                                 <img class="img-xs rounded-circle d-inline" src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="">
-                                <h6 class="d-inline">{{ session('user_name') }}</h6>
+                                <h6 class="d-inline">{{ Auth::user()->user_name }}</h6>
                                 </a>
                             </div>
 

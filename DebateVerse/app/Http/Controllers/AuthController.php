@@ -50,13 +50,8 @@ class AuthController extends Controller
         // $users = User::get(['id', 'user_name', 'email', 'phone_number', 'password']);
         $user = $request->only('email', 'password');
         if (Auth::attempt($user)) {
-            $userInfo = Auth::user();
-            session([
-                'user_name' => $userInfo->user_name,
-                'user_id' => $userInfo->id,
-                'user_email' => $userInfo->email
-            ]);
-            return view('home');
+            Auth::user();
+            return redirect()->route('home');
         } else {
             return redirect()->route('to.login')->with('loginError', 'Invalid Email or Password');
         }
