@@ -1,5 +1,8 @@
 @extends('layout.layout')
 @section('content')
+    @php
+        use Illuminate\Support\Facades\Auth;
+    @endphp
 <div class="col-md-8 col-xl-6 middle-wrapper">
     <div class="row">
         <div class="col-md-12 grid-margin">
@@ -9,7 +12,7 @@
                         <div class="d-flex align-items-center">
                             <img class="img-xs rounded-circle" src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="">
                             <div class="ml-2">
-                                <a href="" class="navbar-brand"><p>{{ session('user_name') }}</p></a>
+                                <a href="" class="navbar-brand"><p>{{ Auth::user()->user_name }}</p></a>
                                 <p class="tx-11 text-muted">1 min ago</p>
                             </div>
                         </div>
