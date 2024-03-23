@@ -64,7 +64,7 @@
                     <!--card-body-->
                     <div class="card-body p-4">
                         <h5>{{ $categorie->categorie_name }}</h5>
-                        <p class="mb-0 text-muted">124 Jobs opportunities</p>
+                        <p class="mb-0 text-muted">The Debates: {{ $categorie->debates->count() }}</p>
                     </div>
                     <div class="widget-meeting-action p-2">
                         <div>

@@ -21,8 +21,13 @@ Route::post('/user/login', [\App\Http\Controllers\AuthController::class, 'login'
 Route::get('/home', [\App\Http\Controllers\CategorieController::class, 'home'])->name('home');
 
 Route::get('/dashboard', [\App\Http\Controllers\CategorieController::class, 'index'])->name('dashboard');
-Route::get('/categories', [\App\Http\Controllers\CategorieController::class, 'toCategories'])->name('categories');
 
+Route::get('/categories', [\App\Http\Controllers\CategorieController::class, 'toCategories'])->name('categories');
 Route::post('/create/categorie', [\App\Http\Controllers\CategorieController::class, 'store'])->name('add.categorie');
 Route::delete('/destroy/categorie/{categorie}', [\App\Http\Controllers\CategorieController::class, 'destroy'])->name('destroy.categorie');
 Route::put('/update/categorie{categorie}', [\App\Http\Controllers\CategorieController::class, 'update'])->name('update.categorie');
+
+Route::get('/tags', [\App\Http\Controllers\TagController::class, 'toTags'])->name('tags');
+Route::post('/create/tag', [\App\Http\Controllers\TagController::class, 'store'])->name('add.tag');
+Route::delete('/destroy/tag/{tag}', [\App\Http\Controllers\TagController::class, 'destroy'])->name('destroy.tag');
+Route::put('/update/tag/{tag}', [\App\Http\Controllers\TagController::class, 'update'])->name('update.tag');
