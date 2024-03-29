@@ -245,13 +245,16 @@
                     @endif
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                    <li><a class="dropdown-item" href="#">Profile</a></li>
-                    <li><a class="dropdown-item" href="#">Settings</a></li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-                    <li><a class="dropdown-item" href="">Logout</a></li>
-                    <li><a class="dropdown-item" href="">Login</a></li>
+                    @if(!Auth::id() == null)
+                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li><a class="dropdown-item" href="#">Settings</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="{{ route('logout') }}">Logout</a></li>
+                    @else
+                        <li><a class="dropdown-item" href="{{ route('to.login') }}">Login</a></li>
+                    @endif
                     <li>
                         <div class="offcanvas-content">
                             <button class="dropdown-item" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">

@@ -12,6 +12,12 @@ use Illuminate\Support\Facades\Auth;
 class DebateController extends Controller
 {
     //
+    public function home()
+    {
+        $debates = Debate::all();
+        return view('home', compact('debates'));
+    }
+
     public function store(DebateRequest $debateRequest, Request $request)
     {
         $debateRequest->validate($request);

@@ -27,11 +27,6 @@ class CategorieController extends Controller
         return view('admin.categories', compact('categories'));
     }
 
-    public function home()
-    {
-        return view('home');
-    }
-
     public function store(Request $request)
     {
         $validated = $request->validate([
