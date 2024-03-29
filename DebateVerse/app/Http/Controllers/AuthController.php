@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Gender;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,7 +18,8 @@ class AuthController extends Controller
 
     public function toRegister()
     {
-        return view('auth.register');
+        $gender = Gender::all();
+        return view('auth.register', compact('gender'));
     }
     public function register(Request $request)
     {
@@ -27,7 +29,8 @@ class AuthController extends Controller
             'last_name' => ['required', 'string', 'min:3'],
             'email' => ['required', 'email', 'unique:users'],
             'password' => ['required', 'min:8', 'confirmed'],
-            'phoneNumber' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:10']
+            'phoneNumber' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:10'],
+            'gender_name' => ['required', 'in:1,2']
         ]);
 
         $data = $request->first_name . rand(pow(10, 8 - 1), pow(10, 8) -1);
@@ -40,6 +43,8 @@ class AuthController extends Controller
             'user_name' => $data,
             'password' => Hash::make($request->input('password')),
             'phone_number' => $request->input('phoneNumber'),
+            'role_id' => 2,
+            'gender_id' => $request->input('gender_name')
         ]);
 
         return redirect()->route('to.login');

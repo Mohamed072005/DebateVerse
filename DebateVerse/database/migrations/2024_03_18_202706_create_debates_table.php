@@ -16,7 +16,7 @@ class CreateDebatesTable extends Migration
         Schema::create('debates', function (Blueprint $table) {
             $table->id();
             $table->text('content');
-            $table->string('img');
+            $table->string('img')->nullable();
             $table->integer('reports')->default(0);
             $table->boolean('status')->default(1);
             $table->foreignId('user_id')->constrained()->onDelete('cascade');

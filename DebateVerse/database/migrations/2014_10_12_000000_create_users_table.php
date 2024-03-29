@@ -24,6 +24,8 @@ class CreateUsersTable extends Migration
             $table->string('phone_number');
             $table->boolean('status')->default(1);
             $table->integer('report')->default(0);
+            $table->foreignId('gender_id')->constrained()->onDelete('cascade');
+            $table->foreignId('role_id')->constrained()->onDelete('cascade');
             $table->rememberToken();
             $table->timestamps();
         });

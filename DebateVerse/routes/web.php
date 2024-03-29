@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+//login and register and home amd dashboard
+
 Route::get('/', [\App\Http\Controllers\AuthController::class, 'toLogin'])->name('to.login');
 Route::get('/register', [\App\Http\Controllers\AuthController::class, 'toRegister'])->name('to.register');
 Route::post('/user/register', [\App\Http\Controllers\AuthController::class, 'register'])->name('register');
@@ -22,12 +25,25 @@ Route::get('/home', [\App\Http\Controllers\CategorieController::class, 'home'])-
 
 Route::get('/dashboard', [\App\Http\Controllers\CategorieController::class, 'index'])->name('dashboard');
 
+//categorie
+
 Route::get('/categories', [\App\Http\Controllers\CategorieController::class, 'toCategories'])->name('categories');
 Route::post('/create/categorie', [\App\Http\Controllers\CategorieController::class, 'store'])->name('add.categorie');
 Route::delete('/destroy/categorie/{categorie}', [\App\Http\Controllers\CategorieController::class, 'destroy'])->name('destroy.categorie');
 Route::put('/update/categorie{categorie}', [\App\Http\Controllers\CategorieController::class, 'update'])->name('update.categorie');
 
+//tag
+
 Route::get('/tags', [\App\Http\Controllers\TagController::class, 'toTags'])->name('tags');
 Route::post('/create/tag', [\App\Http\Controllers\TagController::class, 'store'])->name('add.tag');
 Route::delete('/destroy/tag/{tag}', [\App\Http\Controllers\TagController::class, 'destroy'])->name('destroy.tag');
 Route::put('/update/tag/{tag}', [\App\Http\Controllers\TagController::class, 'update'])->name('update.tag');
+
+//users profile
+
+Route::get('/profile', [\App\Http\Controllers\UserController::class, 'index'])->name('profile');
+Route::put('/update/user', [\App\Http\Controllers\UserController::class, 'update'])->name('update.user');
+
+//debate
+
+Route::post('/create/debate', [\App\Http\Controllers\DebateController::class, 'store'])->name('create.debate');

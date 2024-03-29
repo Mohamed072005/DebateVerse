@@ -31,6 +31,21 @@
                             <input type="text" name="phoneNumber" class="form-control form-control-lg" />
                         </div>
 
+                        <div class="mb-2">
+                            <label>Gender:</label>
+                        </div>
+
+                        <div class="form-outline mb-4 row d-flex justify-content-evenly">
+                            @foreach($gender as $genderInfo)
+                                <div class="col-4 form-check">
+                                    <input class="form-check-input" type="radio" name="gender_name" value="{{ $genderInfo->id }}" id="{{ $genderInfo->id }}">
+                                    <label class="form-check-label" for="{{ $genderInfo->id }}">
+                                        {{ $genderInfo->gender_name }}
+                                    </label>
+                                </div>
+                            @endforeach
+                        </div>
+
                         <div class="form-outline mb-4">
                             <label class="form-label" for="">Password</label>
                             <input type="password" name="password" class="form-control form-control-lg" />
