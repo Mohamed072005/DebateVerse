@@ -62,49 +62,9 @@ class AuthController extends Controller
         }
     }
 
-    public function deleteUser($id)
+    public function logout()
     {
-
-        $deleteUser = User::find($id);
-        $deleteUser->delete();
-
-        if ($deleteUser) {
-            return response()->json('delete success');
-        }
-    }
-
-
-    public function updateUser(Request $request, $id)
-    {
-
-        $request->validate([
-            'first_name' => ['required', 'string'],
-            'last_name' => ['required', 'string'],
-            'user_name' => ['required', 'string', 'unique:users'],
-            'email' => ['required', 'email', 'unique:users'],
-            'phone_number' => ['required']
-        ]);
-
-        $updateUser = User::find($id);
-        $updateUser->update([
-            'first_name' => $request->input('first_name'),
-            'last_name' => $request->input('last_name'),
-            'user_name' => $request->input('user_name'),
-            'email' => $request->input('email'),
-            'password' => Hash::make($request->input('password')),
-            "phone_number" => $request->input('phone_number'),
-        ]);
-
-        if ($updateUser) {
-            return response()->json('update success');
-        } else {
-            return response()->json('No update');
-        }
-    }
-
-    public function get()
-    {
-        $user = User::all();
-        return response()->json($user);
+        Auth::logout();
+        return redirect()->route('to.login');
     }
 }

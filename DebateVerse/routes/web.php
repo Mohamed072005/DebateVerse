@@ -20,8 +20,9 @@ Route::get('/', [\App\Http\Controllers\AuthController::class, 'toLogin'])->name(
 Route::get('/register', [\App\Http\Controllers\AuthController::class, 'toRegister'])->name('to.register');
 Route::post('/user/register', [\App\Http\Controllers\AuthController::class, 'register'])->name('register');
 Route::post('/user/login', [\App\Http\Controllers\AuthController::class, 'login'])->name('login');
+Route::get('/logout', [\App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
 
-Route::get('/home', [\App\Http\Controllers\CategorieController::class, 'home'])->name('home');
+Route::get('/home', [\App\Http\Controllers\DebateController::class, 'home'])->name('home');
 
 Route::get('/dashboard', [\App\Http\Controllers\CategorieController::class, 'index'])->name('dashboard');
 
