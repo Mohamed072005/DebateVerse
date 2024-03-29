@@ -63,36 +63,6 @@
             margin-left: 0;
             margin-right: 17px;
         }
-        .img-xs {
-            width: 37px;
-            height: 37px;
-        }
-        .rounded-circle {
-            border-radius: 50% !important;
-        }
-        img {
-            vertical-align: middle;
-            border-style: none;
-        }
-
-        .card-header:first-child {
-            border-radius: 0 0 0 0;
-        }
-        .card-header {
-            padding: 0.875rem 1.5rem;
-            margin-bottom: 0;
-            background-color: rgba(0, 0, 0, 0);
-            border-bottom: 1px solid #f2f4f9;
-        }
-
-        .card-footer:last-child {
-            border-radius: 0 0 0 0;
-        }
-        .card-footer {
-            padding: 0.875rem 1.5rem;
-            background-color: rgba(0, 0, 0, 0);
-            border-top: 1px solid #f2f4f9;
-        }
 
         .grid-margin {
             margin-bottom: 1rem;
@@ -143,7 +113,11 @@
         </div>
         <div class="dropdown d-none d-md-block">
             <button class="btn btn-dark dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                actions
+                @if(!Auth::user()->first_name == null)
+                    {{ Auth::user()->first_name }}
+                @else
+                    actions
+                @endif
             </button>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                 <li><a class="dropdown-item" href="#">Profile</a></li>
@@ -202,8 +176,12 @@
                     <div class="card-body">
                         <div class="d-flex align-items-center justify-content-between mb-2">
                             <div class="">
-                                <a href="" class="navbar-brand">
-                                <img class="img-xs rounded-circle d-inline" src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="">
+                                <a href="{{ route('profile') }}" class="navbar-brand">
+                                    @if(Auth::user()->gender_id == 1)
+                                        <img class="img-xs rounded-circle" src="{{ asset('asset/male.png') }}" alt="">
+                                    @else
+                                        <img class="img-xs rounded-circle" src="{{ asset('asset/female.png') }}" alt="">
+                                    @endif
                                 <h6 class="d-inline">{{ Auth::user()->user_name }}</h6>
                                 </a>
                             </div>
@@ -244,7 +222,11 @@
                                 <h5 class="card-title">Your Contacts</h5>
                                 <div class="d-flex justify-content-between mb-2 pb-2 border-bottom">
                                     <div class="d-flex align-items-center hover-pointer">
-                                        <img class="img-xs rounded-circle" src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="">
+                                        @if(Auth::user()->gender_id == 1)
+                                            <img class="img-xs rounded-circle" src="{{ asset('asset/male.png') }}" alt="">
+                                        @else
+                                            <img class="img-xs rounded-circle" src="{{ asset('asset/female.png') }}" alt="">
+                                        @endif
                                         <div class="ml-2">
                                             <p>Mike Popescu</p>
                                             <p class="tx-11 text-muted">12 Mutual Friends</p>

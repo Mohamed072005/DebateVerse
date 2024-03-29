@@ -5,16 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Debate extends Model
+class DebateTag extends Model
 {
     use HasFactory;
-
+    protected $table = 'debates_tags';
     protected $fillable = [
-        'content',
-        'img',
-        'user_id',
-        'categorie_id'
+        'debate_id',
+        'tag_id'
     ];
+
+    public function debates()
+    {
+        return $this->belongsTo(Debate::class);
+    }
 
     public function tags()
     {

@@ -5,15 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Tag extends Model
+class Role extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'tag_name'
+        'role_name'
     ];
 
-    public function debates()
+    public function users()
     {
-        return $this->belongsToMany(Debate::class, 'debates_tags');
+        return $this->hasMany(User::class);
     }
 }

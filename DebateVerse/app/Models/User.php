@@ -24,6 +24,8 @@ class User extends Authenticatable
         'email',
         'password',
         'phone_number',
+        'role_id',
+        'gender_id'
     ];
 
     /**
@@ -48,5 +50,10 @@ class User extends Authenticatable
     public function debates()
     {
         return $this->hasMany(Debate::class);
+    }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
     }
 }
