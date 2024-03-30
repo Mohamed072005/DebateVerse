@@ -44,6 +44,7 @@ Route::put('/update/tag/{tag}', [\App\Http\Controllers\TagController::class, 'up
 
 Route::get('/profile', [\App\Http\Controllers\UserController::class, 'index'])->name('profile');
 Route::put('/update/user', [\App\Http\Controllers\UserController::class, 'update'])->name('update.user');
+Route::post('/profile/{user_name}', [\App\Http\Controllers\UserController::class, 'friendProfile'])->name('users.profile');
 
 //debate
 

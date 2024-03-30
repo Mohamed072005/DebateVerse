@@ -22,6 +22,24 @@ class UserController extends Controller
         return view('layout-profile.profile', compact('categories', 'tags', 'debates'));
     }
 
+    public function friendProfile(Request $request, $user_name)
+    {
+        $user = User::where('id', $request->friend)->where('user_name', $user_name)->first([
+            'user_name',
+            'id',
+            'gender_id',
+            'first_name',
+            'last_name',
+            'role_id'
+        ]);
+
+        if ($user){
+            return view('layout-profile.usersProfile', compact('user'));
+        }else {
+            return redirect()->route('home')->with('errorProfile', 'This User does not fund');
+        }
+    }
+
     public function update(Request $request, UserRequest $userRequest)
     {
         $userRequest->validate($request);

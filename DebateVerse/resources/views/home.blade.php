@@ -46,8 +46,12 @@
                                         <img class="img-xs rounded-circle" src="{{ asset('asset/female.png') }}" alt="">
                                     @endif
                                     <div class="ml-2">
-                                        <a href="{{ route('profile') }}" class="navbar-brand">
-                                            <p>{{ $debate->user->user_name }}</p></a>
+                                        <form action="{{ route('users.profile', $debate->user->user_name) }}" method="post">
+                                            @csrf
+                                            @method('POST')
+                                            <input type="hidden" name="friend" value="{{ $debate->user->id }}">
+                                            <button type="submit" class="button-to-profile">{{ $debate->user->user_name }}</button>
+                                        </form>
                                         <p class="tx-11 text-muted">1 min ago</p>
                                     </div>
                                 </div>
@@ -156,4 +160,16 @@
             </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @if(!session('errorProfile') == null)
+            <script>
+                Swal.fire({
+                    position: "top-end",
+                    icon: "warning",
+                    title: "{{ session('errorProfile') }}",
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+            </script>
+    @endif
 @endsection
