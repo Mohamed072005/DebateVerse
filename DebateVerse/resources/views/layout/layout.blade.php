@@ -101,6 +101,11 @@
             color: #1a202c;
         }
 
+        .button-to-profile {
+            background: none;
+            border: none;
+        }
+
     </style>
 </head>
 <body>
