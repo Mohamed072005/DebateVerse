@@ -38,6 +38,10 @@
             background-color: #e2e8f0;
             color: #1a202c;
         }
+
+        .debate-actions:hover {
+            background-color: #b1b2bf;
+        }
     </style>
 </head>
 <body>

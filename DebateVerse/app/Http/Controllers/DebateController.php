@@ -50,4 +50,16 @@ class DebateController extends Controller
 
         return redirect()->route('profile')->with('successResponse', 'Your Debate Created Successfully');
     }
+
+    public function destroy(Debate $debate, Request $request)
+    {
+        if ($request->token){
+            $debate->delete();
+            return redirect()->route('profile')->with('successResponse', 'Your Debate Deleted Successfully');
+        }else{
+            $debate->delete();
+            return redirect()->route('home')->with('successResponse', 'Your Debate Deleted Successfully');
+        }
+
+    }
 }
