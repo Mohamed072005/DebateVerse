@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Request\DebateRequest;
 use App\Models\Debate;
 use App\Models\DebateTag;
+use App\serveces\DebateTagService;
 use Dotenv\Exception\ValidationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,6 +13,13 @@ use Illuminate\Support\Facades\Auth;
 class DebateController extends Controller
 {
     //
+    private $debateServices;
+
+    public function __construct(DebateTagService $debateServices)
+    {
+        $this->debateServices = $debateServices;
+    }
+
     public function home()
     {
         $debates = Debate::all();
@@ -41,12 +49,16 @@ class DebateController extends Controller
             return redirect()->route('profile')->with('successResponse', 'Your Debate Created Successfully');
         }
 
-        foreach ($request->tag_name as $tag) {
-            DebateTag::create([
-                'debate_id' => $debateId,
-                'tag_id' => $tag
-            ]);
-        }
+        $tags = $request->tag_name;
+
+        $this->debateServices->store($tags, $debate);
+
+//        foreach ($tags as $tag) {
+//            DebateTag::create([
+//                'debate_id' => $debateId,
+//                'tag_id' => $tag
+//            ]);
+//        }
 
         return redirect()->route('profile')->with('successResponse', 'Your Debate Created Successfully');
     }
@@ -60,6 +72,38 @@ class DebateController extends Controller
             $debate->delete();
             return redirect()->route('home')->with('successResponse', 'Your Debate Deleted Successfully');
         }
+    }
 
+    public function update(Request $request, DebateRequest $debateRequest, Debate $debate)
+    {
+        $debateRequest->validate($request);
+        if ($request->hasFile('img')){
+            $imagePath = $request->file('img')->store('uploads', 'public');
+        }else{
+            $imagePath = null;
+        }
+
+        $debate->update([
+            'content' => $request->input('content'),
+            'img' => $imagePath,
+            'categorie_id' => $request->input('categorie_name')
+        ]);
+
+        $updatedDebate = $debate->id;
+
+        $debateTag = DebateTag::where('debate_id', $updatedDebate)->get();
+        if ($debateTag){
+            $this->debateServices->destroy($debateTag);
+        }
+        $tags = $request->tag_name;
+        if (!$tags == null){
+            $this->debateServices->store($tags, $updatedDebate);
+        }
+
+        if ($request->token){
+            return redirect()->route('profile')->with('successResponse', 'Your Debate Updated Successfully');
+        }else{
+            return redirect()->route('home')->with('successResponse', 'Your Debate Updated Successfully');
+        }
     }
 }

@@ -10,7 +10,6 @@ class DebateRequest
     {
         $request->validate([
             'content' => ['required', 'max:1000'],
-            'img' => ['image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
             'categorie_name' => ['required']
         ]);
     }
