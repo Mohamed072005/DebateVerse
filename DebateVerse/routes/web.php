@@ -50,3 +50,4 @@ Route::post('/profile/{user_name}', [\App\Http\Controllers\UserController::class
 
 Route::post('/create/debate', [\App\Http\Controllers\DebateController::class, 'store'])->name('create.debate');
 Route::delete('/delete/debate/{debate}', [\App\Http\Controllers\DebateController::class, 'destroy'])->name('delete.debate');
+Route::put('/update/debate/{debate}', [\App\Http\Controllers\DebateController::class, 'update'])->name('update.debate');
