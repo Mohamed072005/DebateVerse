@@ -44,10 +44,11 @@ Route::put('/update/tag/{tag}', [\App\Http\Controllers\TagController::class, 'up
 
 Route::get('/profile', [\App\Http\Controllers\UserController::class, 'index'])->name('profile');
 Route::put('/update/user', [\App\Http\Controllers\UserController::class, 'update'])->name('update.user');
-Route::post('/profile/{user_name}', [\App\Http\Controllers\UserController::class, 'friendProfile'])->name('users.profile');
+Route::get('/profile/{user}', [\App\Http\Controllers\UserController::class, 'friendProfile'])->name('users.profile');
 
 //debate
 
 Route::post('/create/debate', [\App\Http\Controllers\DebateController::class, 'store'])->name('create.debate');
 Route::delete('/delete/debate/{debate}', [\App\Http\Controllers\DebateController::class, 'destroy'])->name('delete.debate');
 Route::put('/update/debate/{debate}', [\App\Http\Controllers\DebateController::class, 'update'])->name('update.debate');
+Route::post('/report/{debate}', [\App\Http\Controllers\DebateController::class, 'report'])->name('report');
