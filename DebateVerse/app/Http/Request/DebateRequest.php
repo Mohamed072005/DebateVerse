@@ -10,7 +10,15 @@ class DebateRequest
     {
         $request->validate([
             'content' => ['required', 'max:1000'],
-            'categorie_name' => ['required']
+            'categorie_name' => ['required'],
+            'img' => ['image', 'max:2048']
+        ]);
+    }
+
+    public function validateReport(Request $request)
+    {
+        $request->validate([
+            'report' => ['required', 'string']
         ]);
     }
 }

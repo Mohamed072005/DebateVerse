@@ -165,6 +165,24 @@
         .tag-link {
             color: #4099ff;
         }
+
+        .report-div {
+            border-radius: 50px; /* Adjust as needed */
+            border: 1px solid #ccc; /* Adjust border color */
+            padding: 5px 15px; /* Adjust padding */
+            cursor: pointer;
+        }
+
+        .visually-hidden {
+            position: absolute;
+            overflow: hidden;
+            clip: rect(0 0 0 0);
+            height: 1px;
+            width: 1px;
+            margin: -1px;
+            padding: 0;
+            border: 0;
+        }
     </style>
     <div class=" no-page-title">
         <!-- start page main wrapper -->
@@ -217,7 +235,7 @@
                                             <img class="img-xs rounded-circle" src="{{ asset('asset/female.png') }}" alt="">
                                         @endif
                                         <div class="ml-2">
-                                            <a href="{{ route('profile') }}" class="navbar-brand">
+                                            <a href="" class="navbar-brand">
                                                 <p>{{ $debate->user->user_name }}</p></a>
                                             <p class="tx-11 text-muted">1 min ago</p>
                                         </div>
@@ -233,33 +251,66 @@
                                             </svg>
                                         </button>
                                         <div class="dropdown-menu" aria-labelledby="userDropdown">
-                                            <a class="dropdown-item d-flex align-items-center" href="#">
-                                                <i class="fa fa-flag" aria-hidden="true"></i>
-                                                <span class="">Report</span></a>
                                             <!-- Button trigger modal -->
-                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                                Launch demo modal
+                                            <button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#reportModal{{ $debate->id }}">
+                                                <i class="fa fa-flag" aria-hidden="true"></i>
+                                                <span class=""> Report</span>
                                             </button>
+                                        </div>
 
-                                            <!-- Modal -->
-                                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            ...
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                            <button type="button" class="btn btn-primary">Save changes</button>
-                                                        </div>
+                                        <!-- Report Modal -->
+                                        <div class="modal fade" id="reportModal{{ $debate->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Reports</h1>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form action="{{ route('report', $debate->id) }}" method="post">
+                                                            @csrf
+                                                            @method('POST')
+                                                            <div>
+                                                                <input type="hidden" name="token" value="3d92ff394a72e41dd935d8099ad93fb3e81e32a0a0c4c2c4a76f0fbc46b62a3d">
+                                                                <div class="row">
+                                                                    <input type="checkbox" name="report" class="col-lg-2 col-xl-2">
+                                                                    <div class="rounded-pill report-div col-lg-8 col-md-8 col-xl-8">Violence</div>
+                                                                </div>
+                                                                <div class="row mt-2">
+                                                                    <input type="checkbox" name="report" class="col-lg-2 col-xl-2">
+                                                                    <div class="rounded-pill report-div col-lg-8 col-md-8 col-xl-8">Hate Speech</div>
+                                                                </div>
+                                                                <div class="row mt-2">
+                                                                    <input type="checkbox" name="report" class="col-lg-2 col-xl-2">
+                                                                    <div class="rounded-pill report-div col-lg-8 col-md-8 col-xl-8">Involve a Child</div>
+                                                                </div>
+                                                                <div class="row mt-2">
+                                                                    <input type="checkbox" name="report" class="col-lg-2 col-xl-2">
+                                                                    <div class="rounded-pill report-div col-lg-8 col-md-8 col-xl-8">Drugs</div>
+                                                                </div>
+                                                                <div class="row mt-2">
+                                                                    <input type="checkbox" name="report" class="col-lg-2 col-xl-2">
+                                                                    <div class="rounded-pill report-div col-lg-8 col-md-8 col-xl-8">Terrorism</div>
+                                                                </div>
+                                                                <div class="row mt-2">
+                                                                    <input type="checkbox" name="report" class="col-lg-2 col-xl-2">
+                                                                    <div class="rounded-pill report-div col-lg-8 col-md-8 col-xl-8">Suicide or Self-Injury</div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="mt-2 d-flex justify-content-center">
+                                                                <button type="submit" class="btn btn-outline-primary">Send</button>
+                                                            </div>
+
+                                                        </form>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+                                        <!-- Modal -->
+
                                     </div>
                                 </div>
                             </div>
@@ -334,30 +385,30 @@
         })
     </script>
 @endsection
-{{--<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>--}}
-{{--@if($errors->any() || session('successResponse') !== null)--}}
-{{--    @if($errors->any())--}}
-{{--        @foreach($errors->all() as $error)--}}
-{{--            <script>--}}
-{{--                Swal.fire({--}}
-{{--                    position: "top-end",--}}
-{{--                    icon: "warning",--}}
-{{--                    title: "{{ $error }}",--}}
-{{--                    showConfirmButton: false,--}}
-{{--                    timer: 3000--}}
-{{--                });--}}
-{{--            </script>--}}
-{{--        @endforeach--}}
-{{--    @else--}}
-{{--        <script>--}}
-{{--            Swal.fire({--}}
-{{--                position: "top-end",--}}
-{{--                icon: "success",--}}
-{{--                title: "{{session('successResponse')}}",--}}
-{{--                showConfirmButton: false,--}}
-{{--                timer: 3000--}}
-{{--            });--}}
-{{--        </script>--}}
-{{--    @endif--}}
-{{--@endif--}}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+@if($errors->any() || session('successResponse') !== null)
+    @if($errors->any())
+        @foreach($errors->all() as $error)
+            <script>
+                Swal.fire({
+                    position: "top-end",
+                    icon: "warning",
+                    title: "{{ $error }}",
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+            </script>
+        @endforeach
+    @else
+        <script>
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "{{session('successResponse')}}",
+                showConfirmButton: false,
+                timer: 3000
+            });
+        </script>
+    @endif
+@endif
 

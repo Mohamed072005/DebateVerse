@@ -51,12 +51,17 @@
                                         <img class="img-xs rounded-circle" src="{{ asset('asset/female.png') }}" alt="">
                                     @endif
                                     <div class="ml-2">
-                                        <form action="{{ route('users.profile', $debate->user->user_name) }}" method="post">
-                                            @csrf
-                                            @method('POST')
-                                            <input type="hidden" name="friend" value="{{ $debate->user->id }}">
-                                            <button type="submit" class="button-to-profile">{{ $debate->user->user_name }}</button>
-                                        </form>
+                                        @if($debate->user_id == Auth::id())
+                                            <a href="{{ route('profile') }}" class="navbar-brand"><h6 class="d-inline">{{ Auth::user()->user_name }}</h6></a>
+                                        @else
+{{--                                        <form action="{{ route('users.profile', $debate->user->id) }}" method="post">--}}
+{{--                                            @csrf--}}
+{{--                                            @method('POST')--}}
+{{--                                            <input type="hidden" name="friend" value="{{ $debate->user->user_name }}">--}}
+{{--                                            <button type="submit" class="button-to-profile">{{ $debate->user->user_name }}</button>--}}
+{{--                                        </form>--}}
+                                            <a href="{{ route('users.profile', $debate->user->id) }}" class="navbar-brand"><h6 class="d-inline">{{ $debate->user->user_name }}</h6></a>
+                                        @endif
                                         <p class="tx-11 text-muted">1 min ago</p>
                                     </div>
                                 </div>
@@ -80,9 +85,10 @@
                                                 <i class="fa fa-trash-o" aria-hidden="true"> Delete</i>
                                             </button>
                                         </form>
-                                        <a class="dropdown-item d-flex align-items-center" href="#">
-                                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                            <span class="">Update</span></a>
+                                            <button type="button" class="dropdown-item d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#debateUpdate{{ $debate->id }}">
+                                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                                <span class=""> Update</span>
+                                            </button>
                                         @else
                                             <a class="dropdown-item d-flex align-items-center" href="#">
                                                 <i class="fa fa-flag" aria-hidden="true"></i>
@@ -90,6 +96,80 @@
                                         @endif
 
                                     </div>
+
+                                    <!-- Update Modal -->
+                                    <div class="modal fade" id="debateUpdate{{ $debate->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="{{ route('update.debate', $debate->id) }}" enctype="multipart/form-data" method="post">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <div class="form-floating mb-4">
+                                                            <textarea name="content" id="textarea" placeholder="#" class="form-control form-control-md">{{ $debate->content }}</textarea>
+                                                            <label class="form-label" for="textarea">Content</label>
+                                                        </div>
+                                                        <div class="mb-4">
+                                                            <label for="formFile" class="form-label">Image</label>
+                                                            <input class="form-control" name="img" type="file" id="formFile">
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            Categorie
+                                                        </div>
+                                                        <div class="form-outline mb-4 row d-flex justify-content-evenly">
+                                                            @foreach($categories as $categorie)
+                                                                <div class="col-4 form-check">
+                                                                    @if($debate->categorie_id == $categorie->id)
+                                                                        <input class="form-check-input" type="radio" name="categorie_name" value="{{ $categorie->id }}" id="{{ $categorie->id }}" checked>
+                                                                    @else
+                                                                        <input class="form-check-input" type="radio" name="categorie_name" value="{{ $categorie->id }}" id="{{ $categorie->id }}" >
+                                                                    @endif
+                                                                    <label class="form-check-label" for="{{ $categorie->id }}">
+                                                                        {{ $categorie->categorie_name }}
+                                                                    </label>
+                                                                </div>
+                                                            @endforeach
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            Tags
+                                                        </div>
+                                                        <div class="form-outline mb-4 row d-flex justify-content-evenly">
+                                                            @foreach($tags as $tag)
+                                                                <div class="col-4 form-check">
+                                                                    @php
+                                                                        $isChecked = 0;
+                                                                        foreach($debate->tags as $debateTag) {
+
+                                                                            if($debateTag->tag_name == $tag->tag_name) {
+                                                                                $isChecked = 1;
+                                                                                 // Once found, no need to continue checking
+                                                                            }
+                                                                        }
+                                                                    @endphp
+                                                                    <input class="form-check-input" type="checkbox" name="tag_name[]" value="{{ $tag->id }}" id="{{ $tag->id }}" @if($isChecked) checked @endif>
+                                                                    <label class="form-check-label" for="{{ $tag->id }}">
+                                                                        {{ $tag->tag_name }}
+                                                                    </label>
+                                                                </div>
+                                                            @endforeach
+                                                        </div>
+                                                        <div class="d-flex justify-content-center">
+                                                            <button type="submit" class="btn btn-outline-primary" data-bs-dismiss="modal">Publish</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- End Modal -->
+
                                 </div>
                             </div>
                         </div>

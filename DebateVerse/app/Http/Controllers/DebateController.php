@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Request\DebateRequest;
+use App\Models\Categorie;
 use App\Models\Debate;
 use App\Models\DebateTag;
+use App\Models\Tag;
+use App\Models\User;
 use App\serveces\DebateTagService;
 use Dotenv\Exception\ValidationException;
 use Illuminate\Http\Request;
@@ -23,7 +26,9 @@ class DebateController extends Controller
     public function home()
     {
         $debates = Debate::all();
-        return view('home', compact('debates'));
+        $categories = Categorie::all();
+        $tags = Tag::all();
+        return view('home', compact('debates', 'categories', 'tags'));
     }
 
     public function store(DebateRequest $debateRequest, Request $request)
@@ -104,6 +109,27 @@ class DebateController extends Controller
             return redirect()->route('profile')->with('successResponse', 'Your Debate Updated Successfully');
         }else{
             return redirect()->route('home')->with('successResponse', 'Your Debate Updated Successfully');
+        }
+    }
+
+    public function report(Request $request, Debate $debate, DebateRequest $debateRequest)
+    {
+        $debateRequest->validateReport($request);
+
+        $debateReport = $debate->reports;
+
+        $debate->reports = $debateReport + 1;
+        $debate->save();
+
+        if ($debate->reports == 10){
+            $debate->status = 0;
+            $debate->save();
+        }
+
+        if ($request->token){
+            return redirect()->route('users.profile', $debate->user_id)->with('successResponse', 'Your Report send Successfully, and we will Check it');
+        }else{
+            return redirect()->route('home')->with('successResponse', 'Your Report send Successfully, and we will Check it');
         }
     }
 }

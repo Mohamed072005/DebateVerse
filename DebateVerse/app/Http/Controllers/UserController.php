@@ -22,9 +22,9 @@ class UserController extends Controller
         return view('layout-profile.profile', compact('categories', 'tags', 'debates'));
     }
 
-    public function friendProfile(Request $request, $user_name)
+    public function friendProfile($user_id)
     {
-        $user = User::where('id', $request->friend)->where('user_name', $user_name)->first([
+        $user = User::where('id', $user_id)->first([
             'user_name',
             'id',
             'gender_id',

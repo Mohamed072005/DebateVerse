@@ -384,12 +384,9 @@
                                                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                                     <span class=""> Update</span>
                                                 </button>
-                                            <a class="dropdown-item d-flex align-items-center" href="#">
-                                                <i class="fa fa-flag" aria-hidden="true"></i>
-                                                <span class="">Report</span></a>
                                         </div>
 
-                                        <!-- Modal -->
+                                        <!-- Update Modal -->
                                         <div class="modal fade" id="debateUpdate{{ $debate->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
@@ -398,7 +395,7 @@
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <form action="{{ route('update.debate', $debate->id) }}" method="post">
+                                                        <form action="{{ route('update.debate', $debate->id) }}" enctype="multipart/form-data" method="post">
                                                             @csrf
                                                             @method('PUT')
                                                             <input type="hidden" name="token" value="3d92ff394a72e41dd935d8099ad93fb3e81e32a0a0c4c2c4a76f0fbc46b62a3d">
