@@ -15,9 +15,9 @@ class CreateVotingsTable extends Migration
     {
         Schema::create('votings', function (Blueprint $table) {
             $table->id();
-            $table->integer('against')->default(0);
-            $table->integer('with')->default(0);
+            $table->boolean('status');
             $table->foreignId('debate_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
