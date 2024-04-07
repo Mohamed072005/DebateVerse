@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\DebateController;
+use App\Http\Controllers\VotingController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -52,3 +54,8 @@ Route::post('/create/debate', [\App\Http\Controllers\DebateController::class, 's
 Route::delete('/delete/debate/{debate}', [\App\Http\Controllers\DebateController::class, 'destroy'])->name('delete.debate');
 Route::put('/update/debate/{debate}', [\App\Http\Controllers\DebateController::class, 'update'])->name('update.debate');
 Route::post('/report/{debate}', [\App\Http\Controllers\DebateController::class, 'report'])->name('report');
+
+//voting
+
+Route::get('/with/{debate}', [VotingController::class, 'withUsers'])->name('with');
+Route::get('/against/{debate}', [VotingController::class, 'againstUsers'])->name('against');
