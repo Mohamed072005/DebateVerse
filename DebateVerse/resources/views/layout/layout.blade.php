@@ -144,6 +144,16 @@
             border: none;
         }
 
+        .rounded-right-pill{
+            border-bottom-right-radius: 50px;
+            border-top-right-radius: 50px;
+        }
+
+        .rounded-left-pill {
+            border-top-left-radius: 50px;
+            border-bottom-left-radius: 50px;
+        }
+
     </style>
 </head>
 <body>
@@ -249,7 +259,7 @@
                             </a>
                         </div>
                         <div class="mt-3 d-flex align-items-center">
-                            <a href="" class="navbar-brand">
+                            <a href="{{ route('logout') }}" class="navbar-brand">
                                 <h5 class="text-muted"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</h5>
                             </a>
                         </div>

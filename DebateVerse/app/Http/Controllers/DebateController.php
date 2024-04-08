@@ -56,7 +56,7 @@ class DebateController extends Controller
 
         $tags = $request->tag_name;
 
-        $this->debateServices->store($tags, $debate);
+        $this->debateServices->store($tags, $debateId);
 
 //        foreach ($tags as $tag) {
 //            DebateTag::create([

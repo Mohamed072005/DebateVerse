@@ -186,10 +186,21 @@
                 </div>
                 <div class="card-footer">
                     <div class="w-100 mb-4 d-flex">
-                        <div class="w-25 bg-success text-white text-center rounded-right-pill">
-                            vote
-                        </div>
-                        <div class="w-75 bg-danger text-white text-center rounded-left-pill">vote</div>
+                        @if(!$debate->with + $debate->against == 0)
+                            <div class="bg-success text-white text-center rounded-left-pill" style="width: {{ $debate->with / ($debate->with + $debate->against) * 100}}%">
+                                {{ $debate->with / ($debate->with + $debate->against) * 100 }} %
+                            </div>
+                            <div class="bg-danger text-white text-center rounded-right-pill" style="width: {{ $debate->against / ($debate->with + $debate->against) * 100 }}%">
+                                {{ $debate->against / ($debate->with + $debate->against) * 100 }} %
+                            </div>
+                        @else
+                            <div class="w-50 bg-success text-white text-center rounded-left-pill">
+                                0 %
+                            </div>
+                            <div class="w-50 bg-danger text-white text-center rounded-right-pill">
+                                0 %
+                            </div>
+                        @endif
 
                     </div>
                     <div class="d-flex justify-content-evenly post-actions">

@@ -8,6 +8,9 @@
       <sourceFolder url="file://$MODULE_DIR$/DebateVerse/tests" isTestSource="true" packagePrefix="Tests\" />
       <sourceFolder url="file://$MODULE_DIR$/DebateVerse/tests/Feature" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/DebateVerse/tests/Unit" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/DebateVerse/spec" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/spec" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/DebateVerse/vendor/asm89/stack-cors" />
       <excludeFolder url="file://$MODULE_DIR$/DebateVerse/vendor/brick/math" />
       <excludeFolder url="file://$MODULE_DIR$/DebateVerse/vendor/carbonphp/carbon-doctrine-types" />

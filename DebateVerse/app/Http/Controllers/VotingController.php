@@ -25,8 +25,18 @@ class VotingController extends Controller
                 'user_id' => Auth::id(),
                 'status' => 1,
             ]);
+            $debateExists->with = $debateExists->with + 1;
+            $debateExists->save();
 
             return redirect()->route('home')->with('successResponse', 'Supporting this Debate successfully');
+        }
+
+        if ($votingExists->status == 1) {
+            $debateExists->with = $debateExists->with - 1;
+            $debateExists->save();
+        }else{
+            $debateExists->against = $debateExists->against - 1;
+            $debateExists->save();
         }
 
         $votingExists->delete();
@@ -49,7 +59,18 @@ class VotingController extends Controller
                 'status' => 0,
             ]);
 
+            $debateExists->against = $debateExists->against + 1;
+            $debateExists->save();
+
             return redirect()->route('home')->with('successResponse', 'Rejecting this Debate successfully');
+        }
+
+        if ($votingExists->status == 1) {
+            $debateExists->with = $debateExists->with - 1;
+            $debateExists->save();
+        }else{
+            $debateExists->against = $debateExists->against - 1;
+            $debateExists->save();
         }
 
         $votingExists->delete();
