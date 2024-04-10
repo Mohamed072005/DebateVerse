@@ -42,6 +42,58 @@
         .debate-actions:hover {
             background-color: #b1b2bf;
         }
+
+        .rounded-right-pill{
+            border-bottom-right-radius: 50px;
+            border-top-right-radius: 50px;
+        }
+
+        .rounded-left-pill {
+            border-top-left-radius: 50px;
+            border-bottom-left-radius: 50px;
+        }
+
+        .debate-vote-left {
+            background: none;
+            border: none;
+            border-right: 0.3px solid #b1b2bf;
+            border-bottom-left-radius: 50px;
+            border-top-left-radius: 50px;
+        }
+
+        .debate-vote-right {
+            background: none;
+            border: none;
+            border-left: 0.3px solid #b1b2bf;
+            border-bottom-right-radius: 50px;
+            border-top-right-radius: 50px;
+        }
+
+        .debate-vote-right-checked{
+            background-color: #f43757;
+            color: white;
+            border-bottom-right-radius: 50px;
+            border-top-right-radius: 50px;
+        }
+
+        .debate-vote-left-checked{
+            background-color: #58f84e;
+            color: white;
+            border-bottom-left-radius: 50px;
+            border-top-left-radius: 50px;
+        }
+
+        .debate-actions:hover {
+            background-color: #b1b2bf;
+        }
+
+        .debate-vote-left:hover {
+            background-color: #b1b2bf;
+        }
+
+        .debate-vote-right:hover {
+            background-color: #b1b2bf;
+        }
     </style>
 </head>
 <body>

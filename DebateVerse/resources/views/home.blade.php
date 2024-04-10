@@ -186,7 +186,7 @@
                 </div>
                 <div class="card-footer">
                     <div class="w-100 mb-4 d-flex">
-                        @if(!$debate->with + $debate->against == 0)
+                        @if(!($debate->with + $debate->against) == 0)
                             <div class="bg-success text-white text-center rounded-left-pill" style="width: {{ $debate->with / ($debate->with + $debate->against) * 100}}%">
                                 {{ $debate->with / ($debate->with + $debate->against) * 100 }} %
                             </div>
