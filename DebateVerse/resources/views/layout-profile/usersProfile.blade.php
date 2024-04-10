@@ -326,31 +326,84 @@
                                 </div>
                             </div>
                             <div class="card-footer">
+                                <div class="w-100 mb-4 d-flex">
+                                    @if(!($debate->with + $debate->against) == 0)
+                                        <div class="bg-success text-white text-center rounded-left-pill" style="width: {{ $debate->with / ($debate->with + $debate->against) * 100}}%">
+                                            {{ $debate->with / ($debate->with + $debate->against) * 100 }} %
+                                        </div>
+                                        <div class="bg-danger text-white text-center rounded-right-pill" style="width: {{ $debate->against / ($debate->with + $debate->against) * 100 }}%">
+                                            {{ $debate->against / ($debate->with + $debate->against) * 100 }} %
+                                        </div>
+                                    @else
+                                        <div class="w-50 bg-success text-white text-center rounded-left-pill">
+                                            0 %
+                                        </div>
+                                        <div class="w-50 bg-danger text-white text-center rounded-right-pill">
+                                            0 %
+                                        </div>
+                                    @endif
+
+                                </div>
                                 <div class="d-flex justify-content-evenly post-actions">
-                                    <a href="javascript:;"
-                                       class="debate-actions d-flex align-items-center justify-content-center rounded-pill w-25 text-muted mr-4">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                             stroke-linejoin="round" class="feather feather-heart icon-md">
-                                            <path
-                                                d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                                        </svg>
-                                        <p class="d-none d-md-block ml-2">Like</p>
-                                    </a>
-                                    <a href="javascript:;"
-                                       class="debate-actions d-flex align-items-center justify-content-center rounded-pill w-25 text-muted mr-4">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                             stroke-linejoin="round" class="feather feather-message-square icon-md">
+                                    <div class="d-flex align-items-center justify-content-center rounded-pill w-25 text-muted">
+                                        @php
+                                            $vote = false;
+                                                foreach($debate->voting as $voting){
+                                                    if ($voting->user_id == Auth::id() && $voting->status == 1){
+                                                        $vote = true;
+                                                    }else{
+                                                        $vote = false;
+                                                    }
+                                                }
+                                        @endphp
+                                        @if($vote == true)
+                                            <a href="{{ route('with', $debate->id) }}" class="debate-vote-left-checked d-flex justify-content-center navbar-brand text-success  w-50">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="35" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                                </svg>
+                                            </a>
+                                        @else
+                                            <a href="{{ route('with', $debate->id) }}" class="debate-vote-left d-flex justify-content-center navbar-brand text-success  w-50">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="35" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                                </svg>
+                                            </a>
+                                        @endif
+
+                                        @php
+                                            $vote = false;
+                                                foreach($debate->voting as $voting){
+                                                    if ($voting->user_id == Auth::id() && $voting->status == 0){
+                                                        $vote = true;
+                                                    }else{
+                                                        $vote = false;
+                                                    }
+                                                }
+                                        @endphp
+                                        @if($vote == true)
+                                            <a href="{{ route('against', $debate->id) }}" class="debate-vote-right-checked d-flex justify-content-center navbar-brand text-danger w-50">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="35" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                                                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                                                </svg>
+                                            </a>
+                                        @else
+                                            <a href="{{ route('against', $debate->id) }}" class="debate-vote-right d-flex justify-content-center navbar-brand text-danger w-50">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="35" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                                                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                                                </svg>
+                                            </a>
+                                        @endif
+                                    </div>
+                                    <a href="javascript:;" class="debate-actions d-flex align-items-center justify-content-center rounded-pill w-25 text-muted mr-4">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-message-square icon-md">
                                             <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
                                         </svg>
-                                        <p class="d-none d-md-block ml-2">Comment</p>
+                                        <p class="d-none d-md-block ml-2 mb-0">Comment</p>
                                     </a>
-                                    <a href="javascript:;"
-                                       class="debate-actions d-flex align-items-center justify-content-center rounded-pill w-25 text-muted">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                             stroke-linejoin="round" class="feather feather-share icon-md">
+                                    <a href="javascript:;" class="debate-actions d-flex align-items-center justify-content-center rounded-pill w-25 text-muted">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-share icon-md">
                                             <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
                                             <polyline points="16 6 12 2 8 6"></polyline>
                                             <line x1="12" y1="2" x2="12" y2="15"></line>
