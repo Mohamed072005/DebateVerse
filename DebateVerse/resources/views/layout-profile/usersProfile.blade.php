@@ -309,7 +309,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- Modal -->
+                                        <!-- End Modal -->
 
                                     </div>
                                 </div>
@@ -396,19 +396,59 @@
                                             </a>
                                         @endif
                                     </div>
-                                    <a href="javascript:;" class="debate-actions d-flex align-items-center justify-content-center rounded-pill w-25 text-muted mr-4">
+{{--                                    <a href="javascript:;" class="debate-actions d-flex align-items-center justify-content-center rounded-pill w-25 text-muted mr-4">--}}
+{{--                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-message-square icon-md">--}}
+{{--                                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>--}}
+{{--                                        </svg>--}}
+{{--                                        <p class="d-none d-md-block ml-2 mb-0">Comment</p>--}}
+{{--                                    </a>--}}
+
+                                    <!-- Comments Button -->
+                                    <button type="button" class="debate-actions d-flex align-items-center justify-content-center rounded-pill w-25 text-muted mr-4" data-bs-toggle="modal" data-bs-target="#commentModal{{ $debate->id }}" style="border: none;">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-message-square icon-md">
                                             <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
                                         </svg>
-                                        <p class="d-none d-md-block ml-2 mb-0">Comment</p>
-                                    </a>
-                                    <a href="javascript:;" class="debate-actions d-flex align-items-center justify-content-center rounded-pill w-25 text-muted">
+                                        Comment
+                                    </button>
+                                    <!-- Comments Modal -->
+
+                                    <div class="modal fade" id="commentModal{{ $debate->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Reports</h1>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="">
+                                                        @csrf
+                                                        <div>
+                                                            <div class="form-floating">
+                                                                <input type="text" class="form-control" id="commentInput" placeholder="#">
+                                                                <label for="commentInput">comment</label>
+                                                            </div>
+                                                            <div class="mt-2 d-flex rounded-circle justify-content-center">
+                                                                <button type="submit" class="btn btn-outline-primary">Send</button>
+                                                            </div>
+                                                        </div>
+
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- end Comments Modal -->
+                                    <button class="debate-actions d-flex align-items-center justify-content-center rounded-pill w-25 text-muted" style="border: none">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-share icon-md">
                                             <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
                                             <polyline points="16 6 12 2 8 6"></polyline>
                                             <line x1="12" y1="2" x2="12" y2="15"></line>
                                         </svg>
-                                    </a>
+                                    </button>
                                 </div>
                             </div>
                         </div>

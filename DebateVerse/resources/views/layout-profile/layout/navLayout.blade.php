@@ -39,6 +39,10 @@
             color: #1a202c;
         }
 
+        .debate-actions {
+            border: none;
+        }
+
         .debate-actions:hover {
             background-color: #b1b2bf;
         }

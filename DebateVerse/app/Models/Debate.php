@@ -30,4 +30,9 @@ class Debate extends Model
     {
         return $this->hasMany(Voting::class);
     }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }
