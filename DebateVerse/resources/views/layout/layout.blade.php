@@ -56,6 +56,10 @@
             background-color: #b1b2bf;
         }
 
+        .debate-actions {
+            border: none;
+        }
+
         .debate-vote-left:hover {
             background-color: #b1b2bf;
         }

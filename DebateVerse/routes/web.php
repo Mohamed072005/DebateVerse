@@ -59,3 +59,9 @@ Route::post('/report/{debate}', [\App\Http\Controllers\DebateController::class, 
 
 Route::get('/with/{debate}', [VotingController::class, 'withUsers'])->name('with');
 Route::get('/against/{debate}', [VotingController::class, 'againstUsers'])->name('against');
+
+//Comment
+
+Route::post('/comment/{debate}', [\App\Http\Controllers\CommentController::class, 'storeComment'])->name('comment');
+Route::delete('/delete/comment/{comment}', [\App\Http\Controllers\CommentController::class, 'destroyComment'])->name('destroy.comment');
+Route::put('/update/comment/{comment}', [\App\Http\Controllers\CommentController::class, 'updateComment'])->name('update.comment');
