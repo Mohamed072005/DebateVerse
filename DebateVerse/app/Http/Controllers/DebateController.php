@@ -28,7 +28,8 @@ class DebateController extends Controller
         $debates = Debate::all();
         $categories = Categorie::all();
         $tags = Tag::all();
-        return view('home', compact('debates', 'categories', 'tags'));
+        $users = User::all();
+        return view('home', compact('debates', 'categories', 'tags', 'users'));
     }
 
     public function store(DebateRequest $debateRequest, Request $request)
