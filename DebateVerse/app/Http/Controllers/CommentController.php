@@ -18,17 +18,20 @@ class CommentController extends Controller
             'comment' => 'required',
         ]);
 
-        $comment = Comment::create([
+        Comment::create([
             'content' => $request->input('comment'),
             'user_id' => Auth::id(),
             'debate_id' => $debateId,
         ]);
 
-        if ($comment){
-            return redirect()->route('home')->with('successResponse', 'Comment Added Successfully');
+        if ($request->requestFromFriends){
+            return redirect()->route('users.profile')->with('successResponse', 'Comment Added Successfully');
+        }
+        if ($request->requestFromUser){
+            return redirect()->route('profile')->with('successResponse', 'Comment Added Successfully');
         }
 
-        return redirect()->back()->with('errorProfile', 'Something Went Wrong');
+        return redirect()->route('home')->with('successResponse', 'Comment Added Successfully');
     }
 
     public function destroyComment(Comment $comment)
@@ -51,6 +54,13 @@ class CommentController extends Controller
         $comment->update([
             'content' => $request->input('comment'),
         ]);
+
+        if ($request->requestFromFriends){
+            return redirect()->route('users.profile')->with('successResponse', 'Comment Updated Successfully');
+        }
+        if ($request->requestFromUser){
+            return redirect()->route('profile')->with('successResponse', 'Comment Updated  Successfully');
+        }
         return redirect()->route('home')->with('successResponse', 'Comment Updated Successfully');
     }
 }

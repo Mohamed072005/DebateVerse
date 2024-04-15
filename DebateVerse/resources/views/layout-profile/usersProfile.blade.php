@@ -403,12 +403,13 @@
 {{--                                        <p class="d-none d-md-block ml-2 mb-0">Comment</p>--}}
 {{--                                    </a>--}}
 
+
                                     <!-- Comments Button -->
                                     <button type="button" class="debate-actions d-flex align-items-center justify-content-center rounded-pill w-25 text-muted mr-4" data-bs-toggle="modal" data-bs-target="#commentModal{{ $debate->id }}" style="border: none;">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-message-square icon-md">
                                             <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
                                         </svg>
-                                        Comment
+                                        Comment: {{ $debate->comments->count() }}
                                     </button>
                                     <!-- Comments Modal -->
 
@@ -416,26 +417,79 @@
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Reports</h1>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Comments</h1>
+                                                    <button type="button" class="btn-close close-update-modal" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <form action="">
+                                                    <div class="d-flex justify-content-center">
+                                                        <div class="rounded" style="width: 85%; height: 250px; background-color: #b4b3b3; overflow: auto">
+                                                            @foreach($debate->comments as $comment)
+                                                                <div class="bg-light w-75 rounded d-flex  p-1 m-2">
+                                                                    <div class="d-flex justify-content-center align-items-start mr-2">
+                                                                        @if($comment->user->gender_id == 1)
+                                                                            <img class="img-xs rounded-circle" src="{{ asset('asset/male.png') }}" alt="">
+                                                                        @else
+                                                                            <img class="img-xs rounded-circle" src="{{ asset('asset/female.png') }}" alt="">
+                                                                        @endif
+                                                                    </div>
+                                                                    <div class="w-75">
+                                                                        <h5>{{ $comment->user->user_name }}</h5>
+                                                                        <div class="w-100">
+                                                                            <p class="text-dark comment-text" id="comment{{ $comment->id }}">{{ $comment->content }}</p>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="d-flex justify-content-between">
+                                                                        @if($comment->user_id == Auth::id())
+                                                                            <form action="{{ route('destroy.comment', $comment->id) }}" method="post">
+                                                                                @csrf
+                                                                                @method('DELETE')
+                                                                                <button type="submit" style="background: none; border: none"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                                                            </form>
+                                                                            <div>
+                                                                                <button type="submit" class="update-button" style="background: none; border: none"><i class="fa fa-pencil-square-o" data-comment-id="{{ $comment->id }}" data-debate-id="{{ $comment->debate_id }}" aria-hidden="true"></i></button>
+                                                                            </div>
+
+                                                                        @else
+                                                                            <i class="fa fa-flag" aria-hidden="true"></i>
+                                                                        @endif
+                                                                    </div>
+
+                                                                </div>
+                                                            @endforeach
+                                                        </div>
+                                                    </div>
+                                                    <form action="{{ route('comment', $debate->id) }}" id="insert{{ $debate->id }}" method="post" class="mt-2 myForm">
                                                         @csrf
+                                                        @method('POST')
                                                         <div>
-                                                            <div class="form-floating">
-                                                                <input type="text" class="form-control" id="commentInput" placeholder="#">
-                                                                <label for="commentInput">comment</label>
-                                                            </div>
-                                                            <div class="mt-2 d-flex rounded-circle justify-content-center">
-                                                                <button type="submit" class="btn btn-outline-primary">Send</button>
+                                                            <div>
+                                                                <div class="form-outline d-flex justify-content-center mb-4">
+                                                                    <input type="hidden" name="requestFromFriends" value="3d92ff394a72e41dd935d8099ad93fb3e81e32a0a0c4c2c4a76f0fbc46b62a3d">
+                                                                    <input type="text" class="w-75 form-control" name="comment" placeholder="Type comment..." />
+                                                                    <button type="submit" class="btn btn-outline-primary rounded-circle ml-2"><span><i class="fa fa-send"></i></span></button>
+                                                                </div>
                                                             </div>
                                                         </div>
-
+                                                    </form>
+                                                    <form action="" id="update{{ $debate->id }}" method="post" class="mt-2 updateForm">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <div>
+                                                            <div>
+                                                                <div class="form-outline d-flex justify-content-center mb-4">
+                                                                    <input type="hidden" name="requestFromFriends" value="3d92ff394a72e41dd935d8099ad93fb3e81e32a0a0c4c2c4a76f0fbc46b62a3d">
+                                                                    <input type="text" id="addANote{{ $debate->id }}" class="w-75 form-control" name="comment" placeholder="Update comment..." />
+                                                                </div>
+                                                                <div class="d-flex justify-content-center">
+                                                                    <button type="submit" class="btn btn-outline-primary rounded-circle ml-2" style="height: 38px; margin-right: 10px"><span><i class="fa fa-send"></i></span></button>
+                                                                    <button type="button" class="btn btn-outline-secondary rounded-circle ml-2 close-update-modal"><span><i class="fa fa-times"></i></span></button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </form>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-secondary close-update-modal" data-bs-dismiss="modal">Close</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -470,12 +524,45 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script>
-        const myModal = document.getElementById('myModal')
-        const myInput = document.getElementById('myInput')
+        let buttonUpdate = document.querySelectorAll('.update-button');
+        let closeUpdateModal = document.querySelectorAll('.close-update-modal');
+        let updateForm = document.querySelectorAll('.updateForm');
+        let commentForm = document.querySelectorAll('.myForm');
 
-        myModal.addEventListener('shown.bs.modal', () => {
-            myInput.focus()
-        })
+
+        updateForm.forEach(function (form){
+            form.style.display = 'none'
+        });    closeUpdateModal.forEach(function (closeButton){
+            closeButton.addEventListener('click', function (){
+                commentForm.forEach(function (form){
+                    form.style.display = 'block'
+                });
+                updateForm.forEach(function (form){
+                    form.style.display = 'none'
+                });
+            });
+        });
+        buttonUpdate.forEach(function (button){
+            button.addEventListener('click', function (event){
+
+                const clickedButton = event.target;
+                const commentId = clickedButton.dataset.commentId;
+                const debateId = clickedButton.dataset.debateId;
+
+                let formComment = document.getElementById('insert' + debateId);
+                let formUpdate = document.getElementById('update' + debateId);
+
+                formComment.style.display = 'none';
+                formUpdate.style.display = 'block';
+
+                let comment = document.getElementById('comment' + commentId).innerText;
+                let commentInput = document.getElementById('addANote' + debateId);
+                let formAction = "http://127.0.0.1:8000/update/comment/" + commentId;
+                formUpdate.action = "";
+                formUpdate.action = formAction;
+                commentInput.value = comment;
+            });
+        });
     </script>
 @endsection
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
