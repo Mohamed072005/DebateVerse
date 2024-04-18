@@ -65,3 +65,9 @@ Route::get('/against/{debate}', [VotingController::class, 'againstUsers'])->name
 Route::post('/comment/{debate}', [\App\Http\Controllers\CommentController::class, 'storeComment'])->name('comment');
 Route::delete('/delete/comment/{comment}', [\App\Http\Controllers\CommentController::class, 'destroyComment'])->name('destroy.comment');
 Route::put('/update/comment/{comment}', [\App\Http\Controllers\CommentController::class, 'updateComment'])->name('update.comment');
+
+//Friend Request
+
+Route::post('/send/friend/request/{user}', [\App\Http\Controllers\FriendController::class, 'store'])->name('send.friend.request');
+Route::get('/accept/request/friend/{user}', [\App\Http\Controllers\FriendController::class, 'acceptRequest'])->name('accept.request.friend');
+Route::get('/remove/friend/{user}', [\App\Http\Controllers\FriendController::class, 'removeFriend'])->name('remove.friend');

@@ -201,8 +201,35 @@
                             @endif
                             <h4 class="text-center h6 mt-2">{{ $user->first_name }} {{ $user->last_name }}</h4>
                             <p class="label label-success bg-danger mb-2 d-block">{{ $user->role->role_name }}</p>
-                            <button class="btn btn-sm btn-flash-border-primary mt-1">Follow</button>
-                            <button class="btn btn-sm btn-flash-border-primary mt-2">Message</button>
+                                @php
+                                $sender = null;
+                                $receiver = null;
+                                foreach ($user->sendRequest as $sendExist){
+                                    if ($sendExist->receiver_id == Auth::id() && $sendExist->status == 1){
+                                        $receiver = true;
+                                        break;
+                                    }
+                                }
+
+                                foreach ($user->receiveRequest as $receiverExist){
+                                    if ($receiverExist->sender_id == Auth::id() && $receiverExist->status == 1){
+                                        $sender = true;
+                                        break;
+                                    }
+                                }
+                                @endphp
+                                @if($sender || $receiver)
+                                    <a href="" class="navbar-brand btn btn-sm btn-flash-border-primary mt-2">Message</a>
+                                    <a href="{{ route('remove.friend', $user->id) }}" class="navbar-brand btn btn-sm btn-flash-border-primary mt-2">Remove Friend</a>
+                                @else
+                                    <form action="{{ route('send.friend.request', $user->id) }}" method="post">
+                                        @csrf
+                                        @method('POST')
+                                        <input type="hidden" name="token" value="3d92ff394a72e41dd935d8099ad93fb3e81e32a0a0c4c2c4a76f0fbc46b62a3d">
+                                        <button class=" btn btn-sm btn-flash-border-primary mt-2">add</button>
+                                    </form>
+
+                                @endif
                         </div>
                     </div>
                     <div class="card card-white shadow grid-margin">
@@ -396,12 +423,6 @@
                                             </a>
                                         @endif
                                     </div>
-{{--                                    <a href="javascript:;" class="debate-actions d-flex align-items-center justify-content-center rounded-pill w-25 text-muted mr-4">--}}
-{{--                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-message-square icon-md">--}}
-{{--                                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>--}}
-{{--                                        </svg>--}}
-{{--                                        <p class="d-none d-md-block ml-2 mb-0">Comment</p>--}}
-{{--                                    </a>--}}
 
 
                                     <!-- Comments Button -->
@@ -514,7 +535,7 @@
                             <h4 class="card-title">About</h4>
                         </div>
                         <div class="card-body mb-3">
-                            <p class="mb-0">Lorem ipsum dolor sitelt amet, consectetur adipis icing elit, sed do eiusmod tempor incididunt utitily labore et dolore magna aliqua metavta.</p>
+                            <p class="mb-0">{{ session('errorProfile') }}</p>
                         </div>
                     </div>
                 </div>
@@ -523,6 +544,18 @@
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @if(session('errorProfile') !== null)
+        <script>
+            Swal.fire({
+                position: "top-end",
+                icon: "warning",
+                title: "{{ session('errorProfile') }}",
+                showConfirmButton: false,
+                timer: 3000
+            });
+        </script>
+    @endif
     <script>
         let buttonUpdate = document.querySelectorAll('.update-button');
         let closeUpdateModal = document.querySelectorAll('.close-update-modal');
@@ -564,31 +597,31 @@
             });
         });
     </script>
-@endsection
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-@if($errors->any() || session('successResponse') !== null)
-    @if($errors->any())
-        @foreach($errors->all() as $error)
+    @if($errors->any() || session('successResponse') !== null)
+        @if($errors->any())
+            @foreach($errors->all() as $error)
+                <script>
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "warning",
+                        title: "{{ $error }}",
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
+                </script>
+            @endforeach
+        @else
             <script>
                 Swal.fire({
                     position: "top-end",
-                    icon: "warning",
-                    title: "{{ $error }}",
+                    icon: "success",
+                    title: "{{session('successResponse')}}",
                     showConfirmButton: false,
                     timer: 3000
                 });
             </script>
-        @endforeach
-    @else
-        <script>
-            Swal.fire({
-                position: "top-end",
-                icon: "success",
-                title: "{{session('successResponse')}}",
-                showConfirmButton: false,
-                timer: 3000
-            });
-        </script>
+        @endif
     @endif
-@endif
+@endsection
+
 
