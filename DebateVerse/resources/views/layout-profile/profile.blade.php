@@ -201,8 +201,6 @@
                                 @endif
                                 <h4 class="text-center h6 mt-2">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</h4>
                                 <p class="label label-success bg-danger mb-2 d-block">{{ Auth::user()->role->role_name }}</p>
-                                <button class="btn btn-sm btn-flash-border-primary mt-1">Follow</button>
-                                <button class="btn btn-sm btn-flash-border-primary mt-2">Message</button>
                                     <div class="mt-2">
                                         <!-- Button trigger modal -->
                                         <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#updateModal">
@@ -232,10 +230,6 @@
                                                             <div class="form-outline mb-4">
                                                                 <label class="form-label" for="">User Name</label>
                                                                 <input type="text" name="user_name" class="form-control form-control-md" value="{{ Auth::user()->user_name }}" />
-                                                            </div>
-                                                            <div class="form-outline mb-4">
-                                                                <label class="form-label" for="">Email</label>
-                                                                <input type="text" name="email" class="form-control form-control-md" value="{{ Auth::user()->email }}" />
                                                             </div>
                                                             <div class="form-outline mb-4">
                                                                 <label class="form-label" for="">Phone Number</label>
@@ -737,9 +731,7 @@
             let first_name = document.forms['myForm']['first_name'].value;
             let last_name = document.forms['myForm']['last_name'].value;
             let user_name = document.forms['myForm']['user_name'].value;
-            let email = document.forms['myForm']['email'].value;
             let phNumber = document.forms['myForm']['phoneNumber'].value;
-            let emailRegex = /^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
             let phRegex = /^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$/;
 
             if (first_name === '' || last_name === '') {
@@ -747,16 +739,6 @@
                     position: "top-end",
                     icon: "warning",
                     title: "Your Name is empty",
-                    showConfirmButton: false,
-                    timer: 2000
-                });
-            }
-
-            if (!emailRegex.test(email)) {
-                return Swal.fire({
-                    position: "top-end",
-                    icon: "warning",
-                    title: "Your Email is not valid",
                     showConfirmButton: false,
                     timer: 2000
                 });

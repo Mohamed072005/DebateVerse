@@ -9,7 +9,6 @@ use App\Models\DebateTag;
 use App\Models\Tag;
 use App\Models\User;
 use App\serveces\DebateTagService;
-use Dotenv\Exception\ValidationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -28,7 +27,11 @@ class DebateController extends Controller
         $debates = Debate::all();
         $categories = Categorie::all();
         $tags = Tag::all();
-        $users = User::all();
+        $users = User::where('id', '!=', Auth::id())->get([
+            'user_name',
+            'id',
+            'gender_id'
+        ]);
         return view('home', compact('debates', 'categories', 'tags', 'users'));
     }
 

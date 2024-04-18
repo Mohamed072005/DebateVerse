@@ -70,4 +70,13 @@ class User extends Authenticatable
     {
         return $this->hasMany(Comment::class);
     }
+
+    public function sendRequest()
+    {
+        return $this->hasMany(Friend::class, 'sender_id');
+    }
+
+    public function receiveRequest(){
+        return $this->hasMany(Friend::class, 'receiver_id');
+    }
 }

@@ -47,7 +47,6 @@ class UserController extends Controller
         $user = User::find(Auth::id());
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
-        $user->email = $request->email;
         $user->user_name = $request->user_name;
         $user->phone_number = $request->phoneNumber;
         $user->save();
