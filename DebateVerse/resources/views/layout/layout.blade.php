@@ -178,7 +178,7 @@
             </button>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                 @if(!Auth::id() == null)
-                <li><a class="dropdown-item" href="#">Profile</a></li>
+                <li><a class="dropdown-item" href="{{ route('profile') }}">Profile</a></li>
                 <li><a class="dropdown-item" href="#">Settings</a></li>
                 <li>
                     <hr class="dropdown-divider">
@@ -258,7 +258,7 @@
                         </div>
 
                         <div class="mt-3 d-flex align-items-center">
-                            <a href="" class="navbar-brand">
+                            <a href="{{ route('friends') }}" class="navbar-brand">
                             <h5 class="text-muted"><i class="fa fa-group" aria-hidden="true"></i> Friends</h5>
                             </a>
                         </div>
@@ -296,17 +296,27 @@
                                                 </div>
                                             </div>
                                             <div>
-                                                <a href="" class="navbar-brand">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="text-danger" width="24" height="35" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                        <line x1="18" y1="6" x2="6" y2="18"></line>
-                                                        <line x1="6" y1="6" x2="18" y2="18"></line>
-                                                    </svg>
-                                                </a>
-                                                <a href="{{ route('accept.request.friend', $request->sender_id) }}" class="navbar-brand">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="text-success" width="24" height="35" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                        <polyline points="20 6 9 17 4 12"></polyline>
-                                                    </svg>
-                                                </a>
+                                                <form action="{{ route('reject.request.friend', $request->sender_id) }}" method="post">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <input type="hidden" name="token" class="input-token" value="3d92ff394a72e41dd935d8099ad93fb3e81e32a0a0c4c2c4a76f0fbc46b62a3d">
+                                                    <button class="btn btn-sm btn-flash-border-primary">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="text-danger" width="24" height="35" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                                                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                                                        </svg>
+                                                    </button>
+                                                </form>
+                                                <form action="{{ route('accept.request.friend', $request->sender_id) }}" method="post">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <input type="hidden" name="token" class="input-token" value="3d92ff394a72e41dd935d8099ad93fb3e81e32a0a0c4c2c4a76f0fbc46b62a3d">
+                                                    <button class="btn btn-sm btn-flash-border-primary">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="text-success" width="24" height="35" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                            <polyline points="20 6 9 17 4 12"></polyline>
+                                                        </svg>
+                                                    </button>
+                                                </form>
                                             </div>
                                         </div>
                                         @endif
@@ -317,7 +327,7 @@
                         </div>
                         @endif
                         <div class="card rounded">
-                            <div class="card-body">
+                            <div class="card-body" style="overflow: auto; height: 75vh">
                                 <h5 class="card-title">Friend Suggestions</h5>
                                 @foreach($users as $user)
                                             <div class="d-flex justify-content-between mb-2 pb-2">

@@ -68,6 +68,12 @@ Route::put('/update/comment/{comment}', [\App\Http\Controllers\CommentController
 
 //Friend Request
 
+Route::get('/friends', [\App\Http\Controllers\FriendController::class, 'toFriends'])->name('friends');
 Route::post('/send/friend/request/{user}', [\App\Http\Controllers\FriendController::class, 'store'])->name('send.friend.request');
-Route::get('/accept/request/friend/{user}', [\App\Http\Controllers\FriendController::class, 'acceptRequest'])->name('accept.request.friend');
-Route::get('/remove/friend/{user}', [\App\Http\Controllers\FriendController::class, 'removeFriend'])->name('remove.friend');
+Route::put('/accept/request/friend/{user}', [\App\Http\Controllers\FriendController::class, 'acceptRequest'])->name('accept.request.friend');
+Route::delete('/reject/request/friend/{user}', [\App\Http\Controllers\FriendController::class, 'rejectRequest'])->name('reject.request.friend');
+Route::delete('/remove/friend/{user}', [\App\Http\Controllers\FriendController::class, 'removeFriend'])->name('remove.friend');
+
+//Errors
+
+Route::get('/error', [DebateController::class, 'error'])->name('error404');
