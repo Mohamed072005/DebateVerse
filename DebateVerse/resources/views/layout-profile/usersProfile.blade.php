@@ -219,8 +219,16 @@
                                 }
                                 @endphp
                                 @if($sender || $receiver)
-                                    <a href="" class="navbar-brand btn btn-sm btn-flash-border-primary mt-2">Message</a>
-                                    <a href="{{ route('remove.friend', $user->id) }}" class="navbar-brand btn btn-sm btn-flash-border-primary mt-2">Remove Friend</a>
+{{--                                    <a href="" class="navbar-brand btn btn-sm btn-flash-border-primary mt-2">Message</a>--}}
+                                    <form>
+                                        <button class="btn btn-sm btn-flash-border-primary mt-2">Message</button>
+                                    </form>
+                                    <form action="{{ route('remove.friend', $user->id) }}" method="post">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-sm btn-flash-border-primary mt-2">Remove Friend</button>
+                                    </form>
+{{--                                    <a href="{{ route('remove.friend', $user->id) }}" class="navbar-brand btn btn-sm btn-flash-border-primary mt-2">Remove Friend</a>--}}
                                 @else
                                     <form action="{{ route('send.friend.request', $user->id) }}" method="post">
                                         @csrf

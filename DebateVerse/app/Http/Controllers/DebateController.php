@@ -136,4 +136,9 @@ class DebateController extends Controller
             return redirect()->route('home')->with('successResponse', 'Your Report send Successfully, and we will Check it');
         }
     }
+
+    public function error()
+    {
+        return view('404');
+    }
 }
