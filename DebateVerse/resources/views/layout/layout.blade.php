@@ -168,34 +168,15 @@
                 <h2 class="text-primary">Debate<span class="text-dark">Verse</span></h2>
             </a>
         </div>
-        <div class="dropdown d-none d-md-block">
-            <button class="btn btn-dark dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                @if(!Auth::user()->first_name == null)
-                    {{ Auth::user()->first_name }}
-                @else
-                    actions
-                @endif
+        <div class="position-relative d-flex align-items-center ms-auto">
+            <button id="button" class="d-flex align-items-center focus:outline-none position-relative p-2" data-bs-toggle="modal" data-bs-target="#exampleModal" style="background: none; border: none">
+                <i class="fa fa-bell fa-2x"></i>
+                <span class="position-absolute top-0 end-0 bg-danger text-white rounded-circle w-5 h-5 d-flex align-items-center justify-content-center text-xs" style="width: 23px">
+                    5
+                </span>
             </button>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                @if(!Auth::id() == null)
-                <li><a class="dropdown-item" href="{{ route('profile') }}">Profile</a></li>
-                <li><a class="dropdown-item" href="#">Settings</a></li>
-                <li>
-                    <hr class="dropdown-divider">
-                </li>
-                <li><a class="dropdown-item" href="{{ route('logout') }}">Logout</a></li>
-                @else
-                    <li><a class="dropdown-item" href="{{ route('to.login') }}">Login</a></li>
-                @endif
-                <li>
-                    <div class="offcanvas-content">
-                            <button class="dropdown-item" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">
-                            Aside
-                        </button>
-                    </div>
-                </li>
-            </ul>
         </div>
+
         <div class="offcanvas-content d-block d-md-none">
             <button class="btn btn-secondary d-flex justify-content-center" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">
                 <i class="fa fa-bars burger-menu" aria-hidden="true"></i>
@@ -226,6 +207,39 @@
         </div>
     </div>
 </header>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+{{--            <div class="modal-header">--}}
+{{--                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>--}}
+{{--                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>--}}
+{{--            </div>--}}
+            <div class="modal-body">
+                <div class="rounded d-flex justify-content-evenly align-items-center" style="background-color: #c1c1c1">
+                    <p class="mt-3">Mohamed Amine Haouat has Liked Your post</p>
+                    <button style="border: none; background: none">
+                        <i class="fa fa-trash text-danger"></i>
+                    </button>
+                </div>
+                <div class="px-4 py-2">
+                    Mohamed Amine Haouat has Liked Your post <i class="fa fa-trash text-danger"></i>
+                </div>
+                <div class="px-4 py-2">
+                    Mohamed Amine Haouat has Liked Your post <i class="fa fa-trash text-danger"></i>
+                </div>
+                <div class="px-4 py-2">
+                    Mohamed Amine Haouat has Liked Your post <i class="fa fa-trash text-danger"></i>
+                </div>
+            </div>
+{{--            <div class="modal-footer">--}}
+{{--                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>--}}
+{{--                <button type="button" class="btn btn-primary">Save changes</button>--}}
+{{--            </div>--}}
+        </div>
+    </div>
+</div>
+<!-- End Modal -->
 <main class="container ">
 
     <div class="profile-page ">

@@ -75,7 +75,7 @@
                                     <h6 class="d-inline">{{ $debate->user->user_name }}</h6>
                                 </a>
                                 @endif
-                                <p class="tx-11 text-muted">1 min ago</p>
+                                <p class="tx-11 text-muted">{{ $debate->created_at->diffForHumans() }}</p>
                             </div>
                         </div>
                         <div class="dropdown d-none d-md-block">
