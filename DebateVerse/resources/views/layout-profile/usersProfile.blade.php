@@ -219,16 +219,45 @@
                                 }
                                 @endphp
                                 @if($sender || $receiver)
-{{--                                    <a href="" class="navbar-brand btn btn-sm btn-flash-border-primary mt-2">Message</a>--}}
-                                    <form>
-                                        <button class="btn btn-sm btn-flash-border-primary mt-2">Message</button>
-                                    </form>
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-sm btn-flash-border-primary mt-2" data-bs-toggle="modal" data-bs-target="#exampleModal{{ $user->id }}">
+                                        Message
+                                    </button>
+
+                                    {{--Message Modal--}}
+
+                                    <div class="modal fade" id="exampleModal{{ $user->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Send Message To {{ $user->user_name }}</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="{{ route('send.message', $user->id) }}" method="post">
+                                                        @csrf
+                                                        @method('POST')
+                                                        <div class="form-floating d-flex flex-column align-items-center mb-2">
+                                                            <input type="text" id="input1" placeholder="#" name="message" class="rounded w-100 form-control form-control-lg">
+                                                            <label for="input1">Message</label>
+                                                        </div>
+                                                        <div class="d-flex justify-content-center">
+                                                            <button type="submit" class="btn btn-outline-primary">send</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{--End Message Modal--}}
                                     <form action="{{ route('remove.friend', $user->id) }}" method="post">
                                         @csrf
                                         @method('DELETE')
                                         <button class="btn btn-sm btn-flash-border-primary mt-2">Remove Friend</button>
                                     </form>
-{{--                                    <a href="{{ route('remove.friend', $user->id) }}" class="navbar-brand btn btn-sm btn-flash-border-primary mt-2">Remove Friend</a>--}}
                                 @else
                                     <form action="{{ route('send.friend.request', $user->id) }}" method="post">
                                         @csrf

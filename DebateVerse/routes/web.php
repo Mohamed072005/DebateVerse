@@ -74,6 +74,12 @@ Route::put('/accept/request/friend/{user}', [\App\Http\Controllers\FriendControl
 Route::delete('/reject/request/friend/{user}', [\App\Http\Controllers\FriendController::class, 'rejectRequest'])->name('reject.request.friend');
 Route::delete('/remove/friend/{user}', [\App\Http\Controllers\FriendController::class, 'removeFriend'])->name('remove.friend');
 
+//Chat
+
+Route::get('/contact', [\App\Http\Controllers\MessageController::class, 'toContact'])->name('contact');
+Route::get('/chat/{user}', [\App\Http\Controllers\MessageController::class, 'toChat'])->name('chat');
+Route::post('/send/message/{user}', [\App\Http\Controllers\MessageController::class, 'sendMessage'])->name('send.message');
+
 //Errors
 
 Route::get('/error', [DebateController::class, 'error'])->name('error404');

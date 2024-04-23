@@ -9,6 +9,7 @@ use App\Models\DebateTag;
 use App\Models\Tag;
 use App\Models\User;
 use App\serveces\DebateTagService;
+use App\serveces\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,10 +17,12 @@ class DebateController extends Controller
 {
     //
     private $debateServices;
+    private $userServices;
 
     public function __construct(DebateTagService $debateServices)
     {
         $this->debateServices = $debateServices;
+        $this->userServices = UserService::getInstance();
     }
 
     public function home()
@@ -27,11 +30,7 @@ class DebateController extends Controller
         $debates = Debate::all();
         $categories = Categorie::all();
         $tags = Tag::all();
-        $users = User::where('id', '!=', Auth::id())->get([
-            'user_name',
-            'id',
-            'gender_id'
-        ]);
+        $users = $this->userServices->getUsersWithoutAuthenticatedUser();
         return view('home', compact('debates', 'categories', 'tags', 'users'));
     }
 
