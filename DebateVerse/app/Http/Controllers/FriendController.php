@@ -4,28 +4,30 @@ namespace App\Http\Controllers;
 
 use App\Models\Friend;
 use App\Models\User;
+use App\Repository\UserRepository;
 use App\serveces\FriendRequestService;
+use App\serveces\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class FriendController extends Controller
 {
     private $friendRequestService;
+    private $userService;
+    private $userRepository;
 
-    public function __construct(FriendRequestService $friendRequestService){
+    public function __construct(FriendRequestService $friendRequestService, UserRepository $userRepository){
+        $this->userRepository = $userRepository;
         $this->friendRequestService = $friendRequestService;
+        $this->userService = UserService::getInstance();
     }
 
 
     public function toFriends()
     {
-        $userAsSender = Friend::where('sender_id', Auth::id())->where('status', 1)->get();
-        $userAsReceiver = Friend::where('receiver_id', Auth::id())->where('status', 1)->get();
-        $users = User::where('id', '!=', Auth::id())->get([
-            'user_name',
-            'id',
-            'gender_id'
-        ]);
+        $userAsSender = $this->userRepository->getBySenderIdAndStatus(Auth::id(), 1);
+        $userAsReceiver = $this->userRepository->getByReceiverIdAndStatus(Auth::id(), 1);
+        $users = $this->userService->getUsersWithoutAuthenticatedUser();
         return view('friends', compact('userAsSender', 'userAsReceiver', 'users'));
     }
 

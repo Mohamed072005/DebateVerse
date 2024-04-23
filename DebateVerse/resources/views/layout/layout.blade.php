@@ -263,11 +263,15 @@
                             </a>
                         </div>
                         <div class="mt-3 d-flex align-items-center">
+                            <a href="{{ route('contact') }}" class="navbar-brand">
+                                <h5 class="text-muted"><i class="fa fa-commenting" aria-hidden="true"></i> Messenger</h5>
+                            </a>
+                        </div>
+                        <div class="mt-3 d-flex align-items-center">
                             <a href="{{ route('logout') }}" class="navbar-brand">
                                 <h5 class="text-muted"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</h5>
                             </a>
                         </div>
-
                     </div>
                 </div>
             </div>

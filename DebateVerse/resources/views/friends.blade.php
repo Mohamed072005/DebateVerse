@@ -65,7 +65,43 @@
                         </a>
                     </div>
                     <div class="card-footer d-flex justify-content-center">
-                        <button class=" btn btn-sm btn-flash-border-primary mt-2">Message</button>
+
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-sm btn-flash-border-primary mt-2" data-bs-toggle="modal" data-bs-target="#exampleModal{{ $receivers->receiver->id }}">
+                            Message
+                        </button>
+
+                        {{--Message Modal--}}
+
+                        <div class="modal fade" id="exampleModal{{ $receivers->receiver->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Send Message To {{ $receivers->receiver->user_name }}</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="{{ route('send.message', $receivers->receiver->id) }}" method="post">
+                                            @csrf
+                                            @method('POST')
+                                            <div class="form-floating d-flex flex-column align-items-center mb-2">
+                                                <input type="text" id="input1" placeholder="#" name="message" class="rounded w-100 form-control form-control-lg">
+                                                <label for="input1">Message</label>
+                                            </div>
+                                            <div class="d-flex justify-content-center">
+                                                <button type="submit" class="btn btn-outline-primary">send</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{--End Message Modal--}}
+
+
                         <form action="{{ route('remove.friend', $receivers->receiver->id) }}" method="post">
                             @csrf
                             @method('DELETE')
@@ -80,7 +116,7 @@
                     <div class="col-md-3 col-sm-8 card shadow rounded mr-2 mb-2">
                         <div class="w-100">
                             <div class="card-header d-flex justify-content-center">
-                                @if(@$senders->sender->gender_id == 1)
+                                @if($senders->sender->gender_id == 1)
                                     <img class="img-xs rounded-circle" src="{{ asset('asset/male.png') }}" alt="">
                                 @else
                                     <img class="img-xs rounded-circle" src="{{ asset('asset/female.png') }}" alt="">
@@ -92,7 +128,40 @@
                                 </a>
                             </div>
                             <div class="card-footer d-flex justify-content-center">
-                                <button class=" btn btn-sm btn-flash-border-primary mt-2">Message</button>
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-sm btn-flash-border-primary mt-2" data-bs-toggle="modal" data-bs-target="#exampleModal{{ $senders->sender->id }}">
+                                    Message
+                                </button>
+
+                                {{--Message Modal--}}
+
+                                <div class="modal fade" id="exampleModal{{ $senders->sender->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Send Message To {{ $senders->sender->user_name }}</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="{{ route('send.message', $senders->sender->id) }}" method="post">
+                                                    @csrf
+                                                    @method('POST')
+                                                    <div class="form-floating d-flex flex-column align-items-center mb-2">
+                                                        <input type="text" id="input1" placeholder="#" name="message" class="rounded w-100 form-control form-control-lg">
+                                                        <label for="input1">Message</label>
+                                                    </div>
+                                                    <div class="d-flex justify-content-center">
+                                                        <button type="submit" class="btn btn-outline-primary">send</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{--End Message Modal--}}
                                 <form action="{{ route('remove.friend', $senders->sender->id) }}" method="post">
                                     @csrf
                                     @method('DELETE')
