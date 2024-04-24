@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Models\Friend;
 use App\Models\User;
 use App\Repository\UserRepositoryInterface;
+use Illuminate\Support\Facades\Auth;
 
 class UserRepository implements UserRepositoryInterface
 {
@@ -32,5 +33,16 @@ class UserRepository implements UserRepositoryInterface
             'gender_id'
         ]);
         return $user;
+    }
+
+    public function getUsersWithoutAuthenticatedUser()
+    {
+        // TODO: Implement getUsersWithoutAuthenticatedUser() method.
+        $users = User::where('id', '!=', Auth::id())->get([
+            'user_name',
+            'id',
+            'gender_id'
+        ]);
+        return $users;
     }
 }

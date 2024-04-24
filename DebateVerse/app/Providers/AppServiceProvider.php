@@ -2,6 +2,18 @@
 
 namespace App\Providers;
 
+use App\Repository\CategorieRepository;
+use App\Repository\CategorieRepositoryInterface;
+use App\Repository\DebateTagRepository;
+use App\Repository\DebateTagRepositoryInterface;
+use App\Repository\MessageRepository;
+use App\Repository\MessageRepositoryInterface;
+use App\Repository\NotificationRepository;
+use App\Repository\NotificationRepositoryInterface;
+use App\Repository\UserRepository;
+use App\Repository\UserRepositoryInterface;
+use App\serveces\FriendRequestService;
+use App\serveces\FriendRequestServiceInterface;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
@@ -15,6 +27,13 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         Schema::defaultStringLength(191);
+
+        $this->app->bind(NotificationRepositoryInterface::class, NotificationRepository::class);
+        $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
+        $this->app->bind(MessageRepositoryInterface::class, MessageRepository::class);
+        $this->app->bind(CategorieRepositoryInterface::class, CategorieRepository::class);
+        $this->app->bind(DebateTagRepositoryInterface::class, DebateTagRepository::class);
+        $this->app->bind(FriendRequestServiceInterface::class, FriendRequestService::class);
     }
 
     /**

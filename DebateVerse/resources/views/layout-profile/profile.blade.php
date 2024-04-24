@@ -352,7 +352,7 @@
                                         <div class="ml-2">
                                             <a href="{{ route('profile') }}" class="navbar-brand">
                                                 <p>{{ Auth::user()->user_name }}</p></a>
-                                            <p class="tx-11 text-muted">1 min ago</p>
+                                            <p class="tx-11 text-muted">{{ $debate->created_at->diffForHumans() }}</p>
                                         </div>
                                     </div>
                                     <div class="dropdown">
@@ -436,7 +436,7 @@
                                                                         @endphp
                                                                         <input class="form-check-input" type="checkbox" name="tag_name[]" value="{{ $tag->id }}" id="{{ $tag->id }}" @if($isChecked) checked @endif>
                                                                         <label class="form-check-label" for="{{ $tag->id }}">
-                                                                            {{ $tag->tag_name }}
+                                                                            #{{ $tag->tag_name }}
                                                                         </label>
                                                                     </div>
                                                                 @endforeach
@@ -460,7 +460,7 @@
                                 <p class="mb-3 tx-14">{{ $debate->content }}</p>
                                 <div>
                                     @foreach($debate->tags as $debateTag)
-                                        <a href="" class="tag-link">{{ $debateTag->tag_name }}</a>
+                                        <a href="" class="tag-link">#{{ $debateTag->tag_name }}</a>
                                     @endforeach
                                 </div>
                                 <div class="d-flex justify-content-center">

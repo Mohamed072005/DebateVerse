@@ -63,7 +63,7 @@
                     <div class="card shadow border-0">
                         <!--card-body-->
                         <div class="card-body p-4">
-                            <h5>{{ $tag->tag_name }}</h5>
+                            <h5>#{{ $tag->tag_name }}</h5>
                         </div>
                         <div class="widget-meeting-action pr-2 pb-2">
                             <div>

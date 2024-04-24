@@ -3,16 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Categorie;
-use App\serveces\CategorieService;
+use App\Repository\CategorieRepositoryInterface;
 use Illuminate\Http\Request;
 
 class CategorieController extends Controller
 {
-    protected $categorieService;
+    protected $categorieRepository;
 
-    public function __construct(CategorieService $categorieService)
+    public function __construct(CategorieRepositoryInterface $categorieRepository)
     {
-        $this->categorieService = $categorieService;
+        $this->categorieRepository = $categorieRepository;
     }
 
     //
@@ -33,14 +33,14 @@ class CategorieController extends Controller
             'categorie_name' => ['required', 'unique:categories']
         ]);
 
-        $this->categorieService->store($validated);
+        $this->categorieRepository->store($validated);
 
         return redirect()->route('categories')->with('addSuccess', 'Your Categorie Created Successfully');
     }
 
     public function destroy(Categorie $categorie)
     {
-        $this->categorieService->destroy($categorie);
+        $this->categorieRepository->destroy($categorie);
 
         return redirect()->route('categories')->with('addSuccess', 'Your Categorie Deleted Successfully');
     }
@@ -53,7 +53,7 @@ class CategorieController extends Controller
 
         $categorie->categorie_name = $request->categorie_name;
 
-        $this->categorieService->update($categorie);
+        $this->categorieRepository->update($categorie);
 
         return redirect()->route('categories')->with('addSuccess', 'Your Categorie Updated Successfully');
     }

@@ -7,22 +7,21 @@ use App\Models\Categorie;
 use App\Models\Debate;
 use App\Models\DebateTag;
 use App\Models\Tag;
-use App\Models\User;
-use App\serveces\DebateTagService;
-use App\serveces\UserService;
+use App\Repository\DebateTagRepositoryInterface;
+use App\Repository\UserRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class DebateController extends Controller
 {
     //
-    private $debateServices;
-    private $userServices;
+    private $debateRepository;
+    private $userRepository;
 
-    public function __construct(DebateTagService $debateServices)
+    public function __construct(DebateTagRepositoryInterface $debateRepository, UserRepositoryInterface $userRepository)
     {
-        $this->debateServices = $debateServices;
-        $this->userServices = UserService::getInstance();
+        $this->userRepository = $debateRepository;
+        $this->userRepository = $userRepository;
     }
 
     public function home()
@@ -30,7 +29,7 @@ class DebateController extends Controller
         $debates = Debate::all();
         $categories = Categorie::all();
         $tags = Tag::all();
-        $users = $this->userServices->getUsersWithoutAuthenticatedUser();
+        $users = $this->userRepository->getUsersWithoutAuthenticatedUser();
         return view('home', compact('debates', 'categories', 'tags', 'users'));
     }
 
@@ -59,14 +58,7 @@ class DebateController extends Controller
 
         $tags = $request->tag_name;
 
-        $this->debateServices->store($tags, $debateId);
-
-//        foreach ($tags as $tag) {
-//            DebateTag::create([
-//                'debate_id' => $debateId,
-//                'tag_id' => $tag
-//            ]);
-//        }
+        $this->debateRepository->store($tags, $debateId);
 
         return redirect()->route('profile')->with('successResponse', 'Your Debate Created Successfully');
     }
@@ -101,11 +93,11 @@ class DebateController extends Controller
 
         $debateTag = DebateTag::where('debate_id', $updatedDebate)->get();
         if ($debateTag){
-            $this->debateServices->destroy($debateTag);
+            $this->debateRepository->destroy($debateTag);
         }
         $tags = $request->tag_name;
         if (!$tags == null){
-            $this->debateServices->store($tags, $updatedDebate);
+            $this->debateRepository->store($tags, $updatedDebate);
         }
 
         if ($request->token){
