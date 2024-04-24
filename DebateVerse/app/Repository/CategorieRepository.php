@@ -1,18 +1,17 @@
 <?php
 
-namespace App\serveces;
+namespace App\Repository;
 
 use App\Models\Categorie;
-use App\serveces\CategorieServiceInterface;
+use App\Repository\CategorieRepositoryInterface;
 
-class CategorieService implements CategorieServiceInterface
+class CategorieRepository implements CategorieRepositoryInterface
 {
 
-    public function store(Array $categorie)
+    public function store(array $categorie)
     {
         // TODO: Implement store() method.
         Categorie::create($categorie);
-
     }
 
     public function destroy(Categorie $categorie)
@@ -23,7 +22,7 @@ class CategorieService implements CategorieServiceInterface
 
     public function update(Categorie $categorie)
     {
-        // TODO: Implement upodat() method.
+        // TODO: Implement update() method.
         $categorie->update([
             'categorie_name' => $categorie->categorie_name
         ]);

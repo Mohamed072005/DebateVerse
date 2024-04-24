@@ -80,6 +80,9 @@ Route::get('/contact', [\App\Http\Controllers\MessageController::class, 'toConta
 Route::get('/chat/{user}', [\App\Http\Controllers\MessageController::class, 'toChat'])->name('chat');
 Route::post('/send/message/{user}', [\App\Http\Controllers\MessageController::class, 'sendMessage'])->name('send.message');
 
+
+Route::delete('/delete/notification/{notification}', [\App\Http\Controllers\NotificationController::class, 'destroyNotification'])->name('destroy.notification');
+Route::delete('/destroy/notifications', [\App\Http\Controllers\NotificationController::class, 'destroyNotifications'])->name('destroy.notifications');
 //Errors
 
 Route::get('/error', [DebateController::class, 'error'])->name('error404');

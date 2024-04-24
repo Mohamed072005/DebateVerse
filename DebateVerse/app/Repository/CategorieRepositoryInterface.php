@@ -1,10 +1,10 @@
 <?php
 
-namespace App\serveces;
+namespace App\Repository;
 
 use App\Models\Categorie;
 
-interface CategorieServiceInterface
+interface CategorieRepositoryInterface
 {
     public function store(Array $categorie);
     public function destroy(Categorie $categorie);

@@ -301,7 +301,7 @@
                                         <div class="ml-2">
                                             <a href="" class="navbar-brand">
                                                 <p>{{ $debate->user->user_name }}</p></a>
-                                            <p class="tx-11 text-muted">1 min ago</p>
+                                            <p class="tx-11 text-muted">{{ $debate->created_at->diffForHumans() }}</p>
                                         </div>
                                     </div>
                                     <div class="dropdown">
@@ -382,7 +382,7 @@
                                 <p class="mb-3 tx-14">{{ $debate->content }}</p>
                                 <div>
                                     @foreach($debate->tags as $debateTag)
-                                        <a href="" class="tag-link">{{ $debateTag->tag_name }}</a>
+                                        <a href="" class="tag-link">#{{ $debateTag->tag_name }}</a>
                                     @endforeach
                                 </div>
                                 <div class="d-flex justify-content-center">

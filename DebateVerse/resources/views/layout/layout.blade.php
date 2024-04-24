@@ -171,9 +171,11 @@
         <div class="position-relative d-flex align-items-center ms-auto">
             <button id="button" class="d-flex align-items-center focus:outline-none position-relative p-2" data-bs-toggle="modal" data-bs-target="#exampleModal" style="background: none; border: none">
                 <i class="fa fa-bell fa-2x"></i>
+                @if(Auth::user()->notificationReceiver->count() > 0)
                 <span class="position-absolute top-0 end-0 bg-danger text-white rounded-circle w-5 h-5 d-flex align-items-center justify-content-center text-xs" style="width: 23px">
-                    5
+                    {{ Auth::user()->notificationReceiver->count() }}
                 </span>
+                @endif
             </button>
         </div>
 
@@ -211,31 +213,37 @@
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-{{--            <div class="modal-header">--}}
-{{--                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>--}}
-{{--                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>--}}
-{{--            </div>--}}
             <div class="modal-body">
-                <div class="rounded d-flex justify-content-evenly align-items-center" style="background-color: #c1c1c1">
-                    <p class="mt-3">Mohamed Amine Haouat has Liked Your post</p>
-                    <button style="border: none; background: none">
-                        <i class="fa fa-trash text-danger"></i>
-                    </button>
+                @foreach(Auth::user()->notificationReceiver as $notification)
+                <div class="rounded d-flex justify-content-evenly align-items-center mb-2" style="background-color: #c1c1c1">
+                    <p class="mt-3">{{ $notification->notificationSender->user_name }} {{ $notification->message }}</p>
+                    <form action="{{ route('destroy.notification', $notification->id) }}" method="post">
+                        @csrf
+                        @method('DELETE')
+                        <button style="border: none; background: none">
+                            <i class="fa fa-trash text-danger"></i>
+                        </button>
+                    </form>
                 </div>
-                <div class="px-4 py-2">
-                    Mohamed Amine Haouat has Liked Your post <i class="fa fa-trash text-danger"></i>
-                </div>
-                <div class="px-4 py-2">
-                    Mohamed Amine Haouat has Liked Your post <i class="fa fa-trash text-danger"></i>
-                </div>
-                <div class="px-4 py-2">
-                    Mohamed Amine Haouat has Liked Your post <i class="fa fa-trash text-danger"></i>
-                </div>
+                    <div>
+                        <p class="tx-11 text-muted d-block">{{ $notification->created_at->diffForHumans() }}</p>
+                    </div>
+                @endforeach
+                @if(Auth::user()->notificationReceiver->count() == 0)
+                    <div class="d-flex justify-content-center">
+                        <h4>There is no Notifications</h4>
+                    </div>
+                    @else
+                    <div class="d-flex justify-content-end">
+                        <form action="{{ route('destroy.notifications') }}" method="post">
+                            @csrf
+                            @method('DELETE')
+                            <input type="hidden" name="deleteAll">
+                            <button class="btn">Delete All <i class="fa fa-trash text-danger"></i></button>
+                        </form>
+                    </div>
+                @endif
             </div>
-{{--            <div class="modal-footer">--}}
-{{--                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>--}}
-{{--                <button type="button" class="btn btn-primary">Save changes</button>--}}
-{{--            </div>--}}
         </div>
     </div>
 </div>
