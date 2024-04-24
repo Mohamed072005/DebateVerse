@@ -7,6 +7,7 @@ use App\Models\Categorie;
 use App\Models\Debate;
 use App\Models\Tag;
 use App\Models\User;
+use App\Repository\UserRepository;
 use Dotenv\Exception\ValidationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,6 +15,12 @@ use Illuminate\Support\Facades\Auth;
 class UserController extends Controller
 {
     //
+    private $userRepository;
+    public function __construct(UserRepository $userRepository)
+    {
+        $this->userRepository = $userRepository;
+    }
+
     public function index()
     {
         $debates = Debate::where('user_id', Auth::id())->get();
@@ -53,5 +60,16 @@ class UserController extends Controller
 
         return redirect()->route('profile')->with('successResponse', 'Your Info Changed Successfully');
 
+    }
+
+    public function findUser(Request $request)
+    {
+        $user_name = $request->input('user_name');
+        if ($user_name == ''){
+            $users = $this->userRepository->getUsersWithoutAuthenticatedUser();
+            return view('searchView', compact('users'));
+        }
+        $users = $this->userRepository->findUserByUserName($user_name);
+        return view('searchView', compact('users'));
     }
 }

@@ -45,4 +45,17 @@ class UserRepository implements UserRepositoryInterface
         ]);
         return $users;
     }
+
+    public function findUserByUserName(string $user_name)
+    {
+        // TODO: Implement findUserByUserName() method.
+        $result = User::where('user_name', 'LIKE', '%'.$user_name.'%')
+            ->where('id', '!=', Auth::id())
+            ->get([
+            'user_name',
+            'id',
+            'gender_id'
+        ]);
+        return $result;
+    }
 }

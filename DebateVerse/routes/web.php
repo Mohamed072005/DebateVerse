@@ -83,6 +83,10 @@ Route::post('/send/message/{user}', [\App\Http\Controllers\MessageController::cl
 
 Route::delete('/delete/notification/{notification}', [\App\Http\Controllers\NotificationController::class, 'destroyNotification'])->name('destroy.notification');
 Route::delete('/destroy/notifications', [\App\Http\Controllers\NotificationController::class, 'destroyNotifications'])->name('destroy.notifications');
+
+//Search
+
+Route::get('/find/user/', [\App\Http\Controllers\UserController::class, 'findUser'])->name('find.user');
 //Errors
 
 Route::get('/error', [DebateController::class, 'error'])->name('error404');
