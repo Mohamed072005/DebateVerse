@@ -27,4 +27,10 @@ class CategorieRepository implements CategorieRepositoryInterface
             'categorie_name' => $categorie->categorie_name
         ]);
     }
+
+    public function getAllCategories()
+    {
+        // TODO: Implement getAllCategories() method.
+        return Categorie::all();
+    }
 }

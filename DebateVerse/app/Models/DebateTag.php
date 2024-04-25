@@ -16,7 +16,7 @@ class DebateTag extends Model
 
     public function debates()
     {
-        return $this->belongsTo(Debate::class);
+        return $this->belongsToMany(Debate::class, 'debates_tags', 'tag_id', 'debate_id');
     }
 
     public function tags()

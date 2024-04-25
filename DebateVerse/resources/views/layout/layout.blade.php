@@ -157,7 +157,6 @@
             border-top-left-radius: 50px;
             border-bottom-left-radius: 50px;
         }
-
     </style>
 </head>
 <body>
@@ -267,16 +266,6 @@
                                 <h6 class="d-inline">{{ Auth::user()->user_name }}</h6>
                                 </a>
                             </div>
-
-                            <div class="dropdown">
-                                <button class="btn p-0" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal icon-lg text-muted pb-3px">
-                                        <circle cx="12" cy="12" r="1"></circle>
-                                        <circle cx="19" cy="12" r="1"></circle>
-                                        <circle cx="5" cy="12" r="1"></circle>
-                                    </svg>
-                                </button>
-                            </div>
                         </div>
 
                         <div class="mt-3 d-flex align-items-center">
@@ -287,6 +276,11 @@
                         <div class="mt-3 d-flex align-items-center">
                             <a href="{{ route('contact') }}" class="navbar-brand">
                                 <h5 class="text-muted"><i class="fa fa-commenting" aria-hidden="true"></i> Messenger</h5>
+                            </a>
+                        </div>
+                        <div class="mt-3 d-flex align-items-center">
+                            <a href="" class="navbar-brand">
+                                <h5 class="text-muted"><i class="fa fa-archive f-left" aria-hidden="true"></i> Explore Categories</h5>
                             </a>
                         </div>
                         <div class="mt-3 d-flex align-items-center">
