@@ -7,7 +7,9 @@ use App\Models\Categorie;
 use App\Models\Debate;
 use App\Models\DebateTag;
 use App\Models\Tag;
+use App\Repository\CategorieRepositoryInterface;
 use App\Repository\DebateTagRepositoryInterface;
+use App\Repository\TagRepositoryInterface;
 use App\Repository\UserRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,18 +19,22 @@ class DebateController extends Controller
     //
     private $debateRepository;
     private $userRepository;
+    private $categorieRepository;
+    private $tagRepository;
 
-    public function __construct(DebateTagRepositoryInterface $debateRepository, UserRepositoryInterface $userRepository)
+    public function __construct(DebateTagRepositoryInterface $debateRepository, UserRepositoryInterface $userRepository, CategorieRepositoryInterface $categorieRepository, TagRepositoryInterface $tagRepository)
     {
-        $this->userRepository = $debateRepository;
+        $this->debateRepository = $debateRepository;
         $this->userRepository = $userRepository;
+        $this->categorieRepository = $categorieRepository;
+        $this->tagRepository = $tagRepository;
     }
 
     public function home()
     {
-        $debates = Debate::all();
-        $categories = Categorie::all();
-        $tags = Tag::all();
+        $debates = $this->debateRepository->getAllDebate();
+        $categories = $this->categorieRepository->getAllCategories();
+        $tags = $this->tagRepository->getAllTags();
         $users = $this->userRepository->getUsersWithoutAuthenticatedUser();
         return view('home', compact('debates', 'categories', 'tags', 'users'));
     }
@@ -126,6 +132,16 @@ class DebateController extends Controller
         }else{
             return redirect()->route('home')->with('successResponse', 'Your Report send Successfully, and we will Check it');
         }
+    }
+
+    public function findDebate(Tag $tag)
+    {
+        $tag_id = $tag->id;
+        $categories = $this->categorieRepository->getAllCategories();
+        $tags = $this->tagRepository->getAllTags();
+        $users = $this->userRepository->getUsersWithoutAuthenticatedUser();
+        $debates = $this->debateRepository->getByDebateByTag($tag_id);
+        return view('tagSearch', compact( 'categories', 'tags', 'users', 'debates'));
     }
 
     public function error()

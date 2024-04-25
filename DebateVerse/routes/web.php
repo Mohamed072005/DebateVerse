@@ -87,6 +87,7 @@ Route::delete('/destroy/notifications', [\App\Http\Controllers\NotificationContr
 //Search
 
 Route::get('/find/user/', [\App\Http\Controllers\UserController::class, 'findUser'])->name('find.user');
+Route::get('/find/debate/{tag}', [DebateController::class, 'findDebate'])->name('find.debate.by.tag');
 //Errors
 
 Route::get('/error', [DebateController::class, 'error'])->name('error404');

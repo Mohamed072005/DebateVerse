@@ -41,15 +41,13 @@
         background: none;
     }
 
-    /*.comment-text {*/
-    /*    overflow: hidden;*/
-    /*    white-space: wrap;*/
-    /*    text-overflow: ellipsis;*/
-    /*}*/
-
     .comment-container{
         width: 150px; /* Adjust container width as needed */
         padding: 10px;
+    }
+
+    .tag-link-color {
+        color: dodgerblue;
     }
 </style>
 <div class="col-md-8 col-xl-6 middle-wrapper">
@@ -188,7 +186,7 @@
                     <p class="mb-3 tx-14">{{ $debate->content }}</p>
                     <div>
                         @foreach($debate->tags as $debateTag)
-                        <a href="" class="tag-link">#{{ $debateTag->tag_name }}</a>
+                            <a href="{{ route('find.debate.by.tag', $debateTag->id) }}" class="tag-link">#{{ $debateTag->tag_name }}</a>
                         @endforeach
                     </div>
                     <div class="d-flex justify-content-center">

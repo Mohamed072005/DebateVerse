@@ -10,6 +10,8 @@ use App\Repository\MessageRepository;
 use App\Repository\MessageRepositoryInterface;
 use App\Repository\NotificationRepository;
 use App\Repository\NotificationRepositoryInterface;
+use App\Repository\TagRepository;
+use App\Repository\TagRepositoryInterface;
 use App\Repository\UserRepository;
 use App\Repository\UserRepositoryInterface;
 use App\serveces\FriendRequestService;
@@ -34,6 +36,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(CategorieRepositoryInterface::class, CategorieRepository::class);
         $this->app->bind(DebateTagRepositoryInterface::class, DebateTagRepository::class);
         $this->app->bind(FriendRequestServiceInterface::class, FriendRequestService::class);
+        $this->app->bind(TagRepositoryInterface::class, TagRepository::class);
     }
 
     /**
