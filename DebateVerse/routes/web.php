@@ -26,14 +26,8 @@ Route::get('/logout', [\App\Http\Controllers\AuthController::class, 'logout'])->
 
 Route::get('/home', [\App\Http\Controllers\DebateController::class, 'home'])->name('home');
 
-Route::get('/dashboard', [\App\Http\Controllers\CategorieController::class, 'index'])->name('dashboard');
+Route::get('/dashboard', [\App\Http\Controllers\DebateController::class, 'index'])->name('dashboard');
 
-//categorie
-
-Route::get('/categories', [\App\Http\Controllers\CategorieController::class, 'toCategories'])->name('categories');
-Route::post('/create/categorie', [\App\Http\Controllers\CategorieController::class, 'store'])->name('add.categorie');
-Route::delete('/destroy/categorie/{categorie}', [\App\Http\Controllers\CategorieController::class, 'destroy'])->name('destroy.categorie');
-Route::put('/update/categorie{categorie}', [\App\Http\Controllers\CategorieController::class, 'update'])->name('update.categorie');
 
 //tag
 
@@ -87,7 +81,8 @@ Route::delete('/destroy/notifications', [\App\Http\Controllers\NotificationContr
 //Search
 
 Route::get('/find/user/', [\App\Http\Controllers\UserController::class, 'findUser'])->name('find.user');
-Route::get('/find/debate/{tag}', [DebateController::class, 'findDebate'])->name('find.debate.by.tag');
+Route::get('/find/debate/{tag}', [DebateController::class, 'findDebateByTag'])->name('find.debate.by.tag');
+
 //Errors
 
 Route::get('/error', [DebateController::class, 'error'])->name('error404');

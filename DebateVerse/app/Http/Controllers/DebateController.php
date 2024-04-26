@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Request\DebateRequest;
-use App\Models\Categorie;
+
 use App\Models\Debate;
 use App\Models\DebateTag;
 use App\Models\Tag;
-use App\Repository\CategorieRepositoryInterface;
+
+use App\Repository\DebateRepositoryInterface;
 use App\Repository\DebateTagRepositoryInterface;
 use App\Repository\TagRepositoryInterface;
 use App\Repository\UserRepositoryInterface;
@@ -17,30 +18,35 @@ use Illuminate\Support\Facades\Auth;
 class DebateController extends Controller
 {
     //
-    private $debateRepository;
+    private $debateTagRepository;
     private $userRepository;
-    private $categorieRepository;
     private $tagRepository;
+    private $debateRepository;
 
-    public function __construct(DebateTagRepositoryInterface $debateRepository, UserRepositoryInterface $userRepository, CategorieRepositoryInterface $categorieRepository, TagRepositoryInterface $tagRepository)
+    public function __construct(DebateTagRepositoryInterface $debateTagRepository, UserRepositoryInterface $userRepository, TagRepositoryInterface $tagRepository, DebateRepositoryInterface $debateRepository)
     {
-        $this->debateRepository = $debateRepository;
+        $this->debateTagRepository = $debateTagRepository;
         $this->userRepository = $userRepository;
-        $this->categorieRepository = $categorieRepository;
         $this->tagRepository = $tagRepository;
+        $this->debateRepository = $debateRepository;
     }
 
     public function home()
     {
-        $debates = $this->debateRepository->getAllDebate();
-        $categories = $this->categorieRepository->getAllCategories();
+        $debates = $this->debateTagRepository->getAllDebate();
         $tags = $this->tagRepository->getAllTags();
         $users = $this->userRepository->getUsersWithoutAuthenticatedUser();
-        return view('home', compact('debates', 'categories', 'tags', 'users'));
+        return view('home', compact('debates', 'tags', 'users'));
     }
 
-    public function store(DebateRequest $debateRequest, Request $request)
+    public function index()
     {
+        return view('admin.dashboard');
+    }
+
+    public function store(Request $request)
+    {
+        $debateRequest = DebateRequest::getInstance();
         $debateRequest->validate($request);
 
         if ($request->hasFile('img')){
@@ -49,12 +55,8 @@ class DebateController extends Controller
             $imagePath = null;
         }
 
-        $debate = Debate::create([
-            'content' => $request->input('content'),
-            'img' => $imagePath,
-            'categorie_id' => $request->input('categorie_name'),
-            'user_id' => Auth::id()
-        ]);
+        $parametres = $request->all();
+        $debate = $this->debateRepository->store($parametres, $imagePath);
 
         if ($debate && !$request->tag_name == null){
             $debateId = $debate->id;
@@ -64,7 +66,7 @@ class DebateController extends Controller
 
         $tags = $request->tag_name;
 
-        $this->debateRepository->store($tags, $debateId);
+        $this->debateTagRepository->store($tags, $debateId);
 
         return redirect()->route('profile')->with('successResponse', 'Your Debate Created Successfully');
     }
@@ -99,11 +101,11 @@ class DebateController extends Controller
 
         $debateTag = DebateTag::where('debate_id', $updatedDebate)->get();
         if ($debateTag){
-            $this->debateRepository->destroy($debateTag);
+            $this->debateTagRepository->destroy($debateTag);
         }
         $tags = $request->tag_name;
         if (!$tags == null){
-            $this->debateRepository->store($tags, $updatedDebate);
+            $this->debateTagRepository->store($tags, $updatedDebate);
         }
 
         if ($request->token){
@@ -134,14 +136,13 @@ class DebateController extends Controller
         }
     }
 
-    public function findDebate(Tag $tag)
+    public function findDebateByTag(Tag $tag)
     {
         $tag_id = $tag->id;
-        $categories = $this->categorieRepository->getAllCategories();
         $tags = $this->tagRepository->getAllTags();
         $users = $this->userRepository->getUsersWithoutAuthenticatedUser();
-        $debates = $this->debateRepository->getByDebateByTag($tag_id);
-        return view('tagSearch', compact( 'categories', 'tags', 'users', 'debates'));
+        $debates = $this->debateTagRepository->getByDebateByTag($tag_id);
+        return view('tagSearch', compact( 'tags', 'users', 'debates'));
     }
 
     public function error()

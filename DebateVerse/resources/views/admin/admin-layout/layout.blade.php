@@ -97,7 +97,6 @@
 <div class="container-fluid navBottom border border-bottom">
     <div class="container d-flex justify-content-evenly pt-2 pb-2">
         <a href="{{ route('dashboard') }}" class="navbar-a-hover navbar-brand">Statistics</a>
-        <a href="{{ route('categories') }}" class="navbar-a-hover navbar-brand">Categories</a>
         <a href="{{ route('tags') }}" class="navbar-a-hover navbar-brand">Tags</a>
         <a href="" class="navbar-a-hover navbar-brand">Block Users</a>
     </div>

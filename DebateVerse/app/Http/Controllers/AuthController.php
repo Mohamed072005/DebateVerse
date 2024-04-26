@@ -4,13 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Gender;
 use App\Models\User;
+use App\Repository\UserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
+    private $userRepository;
 
+    public function __construct(UserRepository $userRepository){
+        $this->userRepository = $userRepository;
+    }
     public function toLogin()
     {
         return view('auth.login');
@@ -33,19 +38,10 @@ class AuthController extends Controller
             'gender_name' => ['required', 'in:1,2']
         ]);
 
-        $data = $request->first_name . rand(pow(10, 8 - 1), pow(10, 8) -1);
+        $userName = $request->first_name . rand(pow(10, 8 - 1), pow(10, 8) -1);
 //        dd($data);
-
-        User::create([
-            'first_name' => $request->input('first_name'),
-            'last_name' => $request->input('last_name'),
-            'email' => $request->input('email'),
-            'user_name' => $data,
-            'password' => Hash::make($request->input('password')),
-            'phone_number' => $request->input('phoneNumber'),
-            'role_id' => 2,
-            'gender_id' => $request->input('gender_name')
-        ]);
+        $parametres = $request->all();
+        $this->userRepository->register($parametres, $userName);
 
         return redirect()->route('to.login');
     }

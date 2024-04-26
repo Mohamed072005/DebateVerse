@@ -130,23 +130,6 @@
                                                                 <input class="form-control" name="img" type="file" id="formFile">
                                                             </div>
                                                             <div class="mb-3">
-                                                                Categorie
-                                                            </div>
-                                                            <div class="form-outline mb-4 row d-flex justify-content-evenly">
-                                                                @foreach($categories as $categorie)
-                                                                    <div class="col-4 form-check">
-                                                                        @if($debate->categorie_id == $categorie->id)
-                                                                            <input class="form-check-input" type="radio" name="categorie_name" value="{{ $categorie->id }}" id="{{ $categorie->id }}" checked>
-                                                                        @else
-                                                                            <input class="form-check-input" type="radio" name="categorie_name" value="{{ $categorie->id }}" id="{{ $categorie->id }}">
-                                                                        @endif
-                                                                        <label class="form-check-label" for="{{ $categorie->id }}">
-                                                                            {{ $categorie->categorie_name }}
-                                                                        </label>
-                                                                    </div>
-                                                                @endforeach
-                                                            </div>
-                                                            <div class="mb-3">
                                                                 Tags
                                                             </div>
                                                             <div class="form-outline mb-4 row d-flex justify-content-evenly">

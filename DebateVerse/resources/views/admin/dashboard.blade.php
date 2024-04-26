@@ -72,15 +72,6 @@
                     </div>
                 </div>
             </div>
-
-            <div class="col-md-4 col-xl-3">
-                <div class="card bg-c-pink order-card">
-                    <div class="card-block">
-                        <h6 class="m-b-20">Categories</h6>
-                        <h2 class="text-right d-flex justify-content-around align-items-center"><i class="fa fa-archive f-left"></i><span>Categories</span></h2>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 @endsection
