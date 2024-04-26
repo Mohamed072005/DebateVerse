@@ -83,6 +83,11 @@ Route::delete('/destroy/notifications', [\App\Http\Controllers\NotificationContr
 Route::get('/find/user/', [\App\Http\Controllers\UserController::class, 'findUser'])->name('find.user');
 Route::get('/find/debate/{tag}', [DebateController::class, 'findDebateByTag'])->name('find.debate.by.tag');
 
+//Suggestion
+
+Route::get('/to/send/suggestion', [\App\Http\Controllers\SuggestionsToAdminController::class, 'toSendSuggestions'])->name('to.send.suggestions');
+Route::post('/send/suggestion', [\App\Http\Controllers\SuggestionsToAdminController::class, 'sendSuggestion'])->name('send.suggestion');
+
 //Errors
 
 Route::get('/error', [DebateController::class, 'error'])->name('error404');

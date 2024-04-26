@@ -82,8 +82,9 @@ class DebateController extends Controller
         }
     }
 
-    public function update(Request $request, DebateRequest $debateRequest, Debate $debate)
+    public function update(Request $request, Debate $debate)
     {
+        $debateRequest = DebateRequest::getInstance();
         $debateRequest->validate($request);
         if ($request->hasFile('img')){
             $imagePath = $request->file('img')->store('uploads', 'public');
@@ -94,7 +95,6 @@ class DebateController extends Controller
         $debate->update([
             'content' => $request->input('content'),
             'img' => $imagePath,
-            'categorie_id' => $request->input('categorie_name')
         ]);
 
         $updatedDebate = $debate->id;
@@ -115,8 +115,9 @@ class DebateController extends Controller
         }
     }
 
-    public function report(Request $request, Debate $debate, DebateRequest $debateRequest)
+    public function report(Request $request, Debate $debate)
     {
+        $debateRequest = DebateRequest::getInstance();
         $debateRequest->validateReport($request);
 
         $debateReport = $debate->reports;

@@ -279,6 +279,16 @@
                             </a>
                         </div>
                         <div class="mt-3 d-flex align-items-center">
+                            <a href="{{ route('to.send.suggestions') }}" class="navbar-brand">
+                                <h5 class="text-muted"><i class="fa fa-question-circle"></i> suggestion</h5>
+                            </a>
+                        </div>
+                        <div class="mt-3 d-flex align-items-center">
+                            <a href="" class="navbar-brand">
+                                <h5 class="text-muted"><i class="fa fa-cogs"></i> suggestion</h5>
+                            </a>
+                        </div>
+                        <div class="mt-3 d-flex align-items-center">
                             <a href="{{ route('logout') }}" class="navbar-brand">
                                 <h5 class="text-muted"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</h5>
                             </a>
@@ -347,7 +357,7 @@
                                     <input type="text" name="" id="searchInput" class="form-control" placeholder="#">
                                     <label for="searchInput">tap user name...</label>
                                 </div>
-                                <div id="resultContainer" style="overflow: auto; height: 58vh; width: 290px">
+                                <div id="resultContainer" style="overflow: auto; height: 58vh; width: 250px">
                                     @foreach($users as $user)
                                         <div class="d-flex justify-content-between mb-2 pb-2">
                                             <div class="d-flex align-items-center hover-pointer">

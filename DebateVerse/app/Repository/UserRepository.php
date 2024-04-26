@@ -74,4 +74,11 @@ class UserRepository implements UserRepositoryInterface
             'gender_id' => $user['gender_name']
         ]);
     }
+
+    public function getAdminId()
+    {
+        // TODO: Implement getAdminIdByRandom() method.
+        $admins = User::where('role_id', 2)->get('id');
+        return $admins;
+    }
 }
