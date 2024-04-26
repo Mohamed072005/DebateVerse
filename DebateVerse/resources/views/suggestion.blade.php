@@ -5,7 +5,8 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Error</title>
+    <title>Blocked</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
     <style>
         .clearfix:before,
@@ -39,13 +40,7 @@
             margin-right: auto;
             margin-left: auto;
         }
-        .page-403 .outer .middle .inner .inner-circle {
-            height: 350px;
-
-            border-radius: 50%;
-            background-color: #ffffff;
-        }
-        .page-403 .outer .middle .inner .inner-circle i {
+        .page-403 .outer .middle .inner i {
             font-size: 5em;
             line-height: 1em;
 
@@ -114,11 +109,37 @@
         <div class="middle">
             <div class="inner">
                 <!--BEGIN CONTENT-->
-                <div class="inner-circle"><i class="fa fa-cogs"></i><span>404</span></div>
-                <span class="inner-status">Sorry, something went wrong!</span>
+                <i class="fa fa-cogs"></i>
+                <span class="inner-status">Send us your suggestions to enhance your experience.</span>
                 <span class="inner-detail">Contact The Admin.</span>
                 <!--END CONTENT-->
+                <div>
+                    <form action="{{ route('send.suggestion') }}" method="post">
+                        @csrf
+                        @method('POST')
+                        <div class="form-group">
+                            <textarea class="form-control" name="message" id="exampleFormControlTextarea1" rows="3" placeholder="send your suggestions..." style="resize: none"></textarea>
+                        </div>
+                        <div class="d-flex justify-content-center mt-3">
+                            <button type="submit" class="btn btn-sm btn-flash-border-primary">send</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+@if($errors->any())
+    @foreach($errors->all() as $error)
+        <script>
+            Swal.fire({
+                position: "top-end",
+                icon: "warning",
+                title: "{{ $error }}",
+                showConfirmButton: false,
+                timer: 3000
+            });
+        </script>
+    @endforeach
+@endif

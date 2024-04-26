@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class DebateRequest
 {
-    private  static $instance;
+    private  static $instance = null;
 
     private function __construct(){}
 

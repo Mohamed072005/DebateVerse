@@ -10,4 +10,5 @@ interface UserRepositoryInterface
     public function getUserById(int $id);
     public function getUsersWithoutAuthenticatedUser();
     public function findUserByUserName(string $user_name);
+    public function getAdminId();
 }

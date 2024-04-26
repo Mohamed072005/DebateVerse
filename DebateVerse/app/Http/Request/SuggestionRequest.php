@@ -4,24 +4,23 @@ namespace App\Http\Request;
 
 use Illuminate\Http\Request;
 
-class MessageRequest
+class SuggestionRequest
 {
     private static $instance = null;
 
     private function __construct(){}
 
-    public static function getInstance()
-    {
+    public static function getInstance(){
         if(self::$instance === null){
-            self::$instance = new MessageRequest();
+            self::$instance = new SuggestionRequest();
         }
         return self::$instance;
     }
 
-    public function validateMessage(Request $request)
+    public function validateRequest(Request $request)
     {
         $request->validate([
-            'message' => 'required',
+            'message' => ['required', 'max:300', 'min:10'],
         ]);
     }
 }

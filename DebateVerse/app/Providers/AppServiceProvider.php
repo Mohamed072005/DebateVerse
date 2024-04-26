@@ -2,8 +2,6 @@
 
 namespace App\Providers;
 
-use App\Repository\CategorieRepository;
-use App\Repository\CategorieRepositoryInterface;
 use App\Repository\DebateRepository;
 use App\Repository\DebateRepositoryInterface;
 use App\Repository\DebateTagRepository;
@@ -12,12 +10,16 @@ use App\Repository\MessageRepository;
 use App\Repository\MessageRepositoryInterface;
 use App\Repository\NotificationRepository;
 use App\Repository\NotificationRepositoryInterface;
+use App\Repository\SuggestionRepository;
+use App\Repository\SuggestionRepositoryInterface;
 use App\Repository\TagRepository;
 use App\Repository\TagRepositoryInterface;
 use App\Repository\UserRepository;
 use App\Repository\UserRepositoryInterface;
 use App\serveces\FriendRequestService;
 use App\serveces\FriendRequestServiceInterface;
+use App\serveces\SuggestionService;
+use App\serveces\SuggestionServiceInterface;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
@@ -39,6 +41,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(FriendRequestServiceInterface::class, FriendRequestService::class);
         $this->app->bind(TagRepositoryInterface::class, TagRepository::class);
         $this->app->bind(DebateRepositoryInterface::class, DebateRepository::class);
+        $this->app->bind(SuggestionServiceInterface::class, SuggestionService::class);
+        $this->app->bind(SuggestionRepositoryInterface::class, SuggestionRepository::class);
     }
 
     /**
