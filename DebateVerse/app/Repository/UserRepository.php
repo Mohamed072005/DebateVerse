@@ -6,6 +6,7 @@ use App\Models\Friend;
 use App\Models\User;
 use App\Repository\UserRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UserRepository implements UserRepositoryInterface
 {
@@ -57,5 +58,20 @@ class UserRepository implements UserRepositoryInterface
             'gender_id'
         ]);
         return $result;
+    }
+
+    public function register(array $user, string $userName)
+    {
+        // TODO: Implement register() method.
+        User::create([
+            'first_name' => $user['first_name'],
+            'last_name' => $user['last_name'],
+            'email' => $user['email'],
+            'user_name' => $userName,
+            'password' => Hash::make($user['password']),
+            'phone_number' => $user['phoneNumber'],
+            'role_id' => 3,
+            'gender_id' => $user['gender_name']
+        ]);
     }
 }

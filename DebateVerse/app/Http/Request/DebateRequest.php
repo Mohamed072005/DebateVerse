@@ -6,11 +6,21 @@ use Illuminate\Http\Request;
 
 class DebateRequest
 {
+    private  static $instance;
+
+    private function __construct(){}
+
+    public static function getInstance(){
+        if
+        (self::$instance === null){
+            self::$instance = new DebateRequest();
+        }
+        return self::$instance;
+    }
     public function validate(Request $request)
     {
         $request->validate([
             'content' => ['required', 'max:1000'],
-            'categorie_name' => ['required'],
             'img' => ['image', 'max:2048']
         ]);
     }

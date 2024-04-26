@@ -24,9 +24,8 @@ class UserController extends Controller
     public function index()
     {
         $debates = Debate::where('user_id', Auth::id())->get();
-        $categories = Categorie::all();
         $tags = Tag::all();
-        return view('layout-profile.profile', compact('categories', 'tags', 'debates'));
+        return view('layout-profile.profile', compact( 'tags', 'debates'));
     }
 
     public function friendProfile($user_id)

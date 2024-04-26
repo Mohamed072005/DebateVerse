@@ -22,7 +22,6 @@ class CreateDebatesTable extends Migration
             $table->integer('with')->default(0);
             $table->integer('against')->default(0);
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('categorie_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
