@@ -2,6 +2,8 @@
 
 namespace App\Repository;
 
+use App\Models\User;
+
 interface UserRepositoryInterface
 {
     public function register(array $user, string $userName);
@@ -11,4 +13,9 @@ interface UserRepositoryInterface
     public function getUsersWithoutAuthenticatedUser();
     public function findUserByUserName(string $user_name);
     public function getAdminId();
+    public function getAllUsers();
+    public function updateUserStatus(int $status, User $user);
+    public function changeUserRole(int $role, User $user);
+    public function getUsersForStatistics();
+    public function getAdminsForStatistics();
 }

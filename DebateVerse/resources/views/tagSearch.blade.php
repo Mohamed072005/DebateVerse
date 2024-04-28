@@ -54,9 +54,9 @@
     <div class="col-md-8 col-xl-6 middle-wrapper">
         <div class="row">
             <div class="col-md-12 grid-margin">
-
                 @foreach($debates as $debateTag)
                     @foreach($debateTag->debates as $debate)
+
                         <div class="card rounded mb-3">
                             <div class="card-header">
                                 <div class="d-flex align-items-center justify-content-between">

@@ -19,4 +19,11 @@ class DebateRepository implements DebateRepositoryInterface
 
         return $debate;
     }
+
+    public function getDebatesForStatistics()
+    {
+        // TODO: Implement getDebatesForStatistics() method.
+        $debates = Debate::all();
+        return $debates;
+    }
 }

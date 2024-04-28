@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class suggestionsToAdmin extends Model
+class SuggestionsToAdmin extends Model
 {
     use HasFactory;
     protected $table = 'suggestions_to_admins';
@@ -14,4 +14,12 @@ class suggestionsToAdmin extends Model
         'to_user_id',
         'suggestion',
     ];
+
+    public function sender(){
+        return $this->belongsTo(User::class,'from_user_id');
+    }
+
+    public function receiver(){
+        return $this->belongsTo(User::class,'to_user_id');
+    }
 }

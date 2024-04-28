@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use App\Http\Controllers\SuggestionsToAdminController;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Symfony\Component\Console\Completion\Suggestion;
 
 class User extends Authenticatable
 {
@@ -87,5 +89,14 @@ class User extends Authenticatable
 
     public function notificationReceiver(){
         return $this->hasMany(Notification::class, 'to_user_id');
+    }
+
+    public function sendSuggestions()
+    {
+        return $this->hasMany(SuggestionsToAdmin::class, 'from_user_id');
+    }
+
+    public function receiverSuggestionsMessage(){
+        return $this->hasMany(SuggestionsToAdmin::class, 'to_user_id');
     }
 }

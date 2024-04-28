@@ -31,4 +31,11 @@ class MessageRepository implements MessageRepositoryInterface
             'message' => $message
         ]);
     }
+
+    public function getAllMessagesForStatistics()
+    {
+        // TODO: Implement getAllMessagesForStatistics() method.
+        $messages = Message::all();
+        return $messages;
+    }
 }
