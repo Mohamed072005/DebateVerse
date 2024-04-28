@@ -13,7 +13,6 @@ class Debate extends Model
         'content',
         'img',
         'user_id',
-        'categorie_id'
     ];
 
     public function tags()

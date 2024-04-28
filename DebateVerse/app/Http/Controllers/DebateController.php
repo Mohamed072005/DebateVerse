@@ -10,6 +10,8 @@ use App\Models\Tag;
 
 use App\Repository\DebateRepositoryInterface;
 use App\Repository\DebateTagRepositoryInterface;
+use App\Repository\MessageRepositoryInterface;
+use App\Repository\SuggestionRepositoryInterface;
 use App\Repository\TagRepositoryInterface;
 use App\Repository\UserRepositoryInterface;
 use Illuminate\Http\Request;
@@ -22,13 +24,17 @@ class DebateController extends Controller
     private $userRepository;
     private $tagRepository;
     private $debateRepository;
+    private $suggestionRepository;
+    private $messagesRepository;
 
-    public function __construct(DebateTagRepositoryInterface $debateTagRepository, UserRepositoryInterface $userRepository, TagRepositoryInterface $tagRepository, DebateRepositoryInterface $debateRepository)
+    public function __construct(DebateTagRepositoryInterface $debateTagRepository, UserRepositoryInterface $userRepository, TagRepositoryInterface $tagRepository, DebateRepositoryInterface $debateRepository, SuggestionRepositoryInterface $suggestionRepository, MessageRepositoryInterface $messageRepository)
     {
         $this->debateTagRepository = $debateTagRepository;
         $this->userRepository = $userRepository;
         $this->tagRepository = $tagRepository;
         $this->debateRepository = $debateRepository;
+        $this->suggestionRepository = $suggestionRepository;
+        $this->messagesRepository = $messageRepository;
     }
 
     public function home()
@@ -41,7 +47,16 @@ class DebateController extends Controller
 
     public function index()
     {
-        return view('admin.dashboard');
+        if (Auth::user()->role_id == 1) {
+            $users = $this->userRepository->getUsersForStatistics();
+            $debates = $this->debateRepository->getDebatesForStatistics();
+            $tags = $this->tagRepository->getAllTags();
+            $suggestions = $this->suggestionRepository->getAllSuggestionsForSuperAdmin();
+            $messages = $this->messagesRepository->getAllMessagesForStatistics();
+            $admins = $this->userRepository->getAdminsForStatistics();
+            return view('admin.dashboard', compact('users', 'debates', 'tags', 'suggestions', 'messages', 'admins'));
+        }
+        return redirect()->route('tags');
     }
 
     public function store(Request $request)
@@ -149,5 +164,15 @@ class DebateController extends Controller
     public function error()
     {
         return view('404');
+    }
+
+    public function error403()
+    {
+        return view('403');
+    }
+
+    public function bannedView()
+    {
+        return view('banned');
     }
 }

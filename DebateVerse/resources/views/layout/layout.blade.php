@@ -186,20 +186,53 @@
 
         <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
             <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="offcanvasScrollingLabel">DebateVerse</h5>
+                <h5 class="offcanvas-title" id="offcanvasScrollingLabel">Menu</h5>
                 <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body">
                 <div class="">
                     <aside class="aside p-2">
                         <div class="">
+                            <a class="navbar-brand" href="{{ route('profile') }}">
+                                <h4 class="">Profile</h4>
+                            </a>
+                        </div>
+                        @if(Auth::user()->role_id == 1 || Auth::user()->role_id == 2)
+                        <div class="">
                             <a class="navbar-brand" href="{{ route('dashboard') }}">
                                 <h4 class="">Dashboard</h4>
                             </a>
                         </div>
+                        @endif
+                        @if(Auth::user()->role_id == 2)
+                            <div class="mt-3 d-flex align-items-center">
+                                <a data-bs-toggle="modal" href="#exampleModalToggle" class="navbar-brand">
+                                    <h5 class="text-muted d-flex"><i class="fa fa-cogs mr-1"></i> suggestion
+                                        @if(Auth::user()->receiverSuggestionsMessage->count() > 0)
+                                            <span class="ml-3 top-0 end-0 bg-danger text-white rounded-circle w-5 h-5 d-flex align-items-center justify-content-center text-xs" style="width: 23px">{{ Auth::user()->receiverSuggestionsMessage->count() }}</span>
+                                        @endif
+                                    </h5>
+                                </a>
+                            </div>
+                        @endif
+                            <div class="">
+                                <a class="navbar-brand" href="{{ route('friends') }}">
+                                    <h4 class="">Friends</h4>
+                                </a>
+                            </div>
+                            <div class="">
+                                <a class="navbar-brand" href="{{ route('contact') }}">
+                                    <h4 class="">Messenger</h4>
+                                </a>
+                            </div>
+                            <div class="">
+                                <a class="navbar-brand" href="{{ route('to.send.suggestions') }}">
+                                    <h4 class="">Suggestions</h4>
+                                </a>
+                            </div>
                         <div class="">
-                            <a class="navbar-brand" href="">
-                                <h4 class="">Your Tickets</h4>
+                            <a class="navbar-brand" href="{{ route('logout') }}">
+                                <h4 class="">Logout</h4>
                             </a>
                         </div>
                     </aside>
@@ -215,7 +248,7 @@
             <div class="modal-body">
                 @foreach(Auth::user()->notificationReceiver as $notification)
                 <div class="rounded d-flex justify-content-evenly align-items-center mb-2" style="background-color: #c1c1c1">
-                    <p class="mt-3">{{ $notification->notificationSender->user_name }} {{ $notification->message }}</p>
+                    <p class="mt-3"><strong>{{ $notification->notificationSender->user_name }}</strong> {{ $notification->message }}</p>
                     <form action="{{ route('destroy.notification', $notification->id) }}" method="post">
                         @csrf
                         @method('DELETE')
@@ -268,6 +301,13 @@
                             </div>
                         </div>
 
+                        @if(Auth::user()->role_id == 1 || Auth::user()->role_id == 2)
+                            <div class="mt-3 d-flex align-items-center">
+                                <a href="{{ route('dashboard') }}" class="navbar-brand">
+                                    <h5 class="text-muted"><i class="fa fa-dashboard" aria-hidden="true"></i> Dashboard</h5>
+                                </a>
+                            </div>
+                        @endif
                         <div class="mt-3 d-flex align-items-center">
                             <a href="{{ route('friends') }}" class="navbar-brand">
                             <h5 class="text-muted"><i class="fa fa-group" aria-hidden="true"></i> Friends</h5>
@@ -278,20 +318,58 @@
                                 <h5 class="text-muted"><i class="fa fa-commenting" aria-hidden="true"></i> Messenger</h5>
                             </a>
                         </div>
+                        @if(Auth::user()->role_id == 3)
                         <div class="mt-3 d-flex align-items-center">
                             <a href="{{ route('to.send.suggestions') }}" class="navbar-brand">
                                 <h5 class="text-muted"><i class="fa fa-question-circle"></i> suggestion</h5>
                             </a>
                         </div>
+                        @endif
+                        @if(Auth::user()->role_id == 1 || Auth::user()->role_id == 2)
                         <div class="mt-3 d-flex align-items-center">
-                            <a href="" class="navbar-brand">
-                                <h5 class="text-muted"><i class="fa fa-cogs"></i> suggestion</h5>
+                            <a data-bs-toggle="modal" href="#exampleModalToggle" class="navbar-brand">
+                                <h5 class="text-muted d-flex"><i class="fa fa-cogs mr-1"></i> suggestion
+                                    @if(Auth::user()->receiverSuggestionsMessage->count() > 0)
+                                    <span class="ml-3 top-0 end-0 bg-danger text-white rounded-circle w-5 h-5 d-flex align-items-center justify-content-center text-xs" style="width: 23px">{{ Auth::user()->receiverSuggestionsMessage->count() }}</span>
+                                    @endif
+                                </h5>
                             </a>
                         </div>
+                        @endif
                         <div class="mt-3 d-flex align-items-center">
                             <a href="{{ route('logout') }}" class="navbar-brand">
                                 <h5 class="text-muted"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</h5>
                             </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- suggestions Modals -->
+
+            <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalToggleLabel">Suggestions</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            @foreach(Auth::user()->receiverSuggestionsMessage as $suggestions)
+                                <div class="rounded d-flex justify-content-evenly align-items-center mb-2" style="background-color: #c1c1c1">
+                                    <p class="mt-3"><strong>{{ $suggestions->sender->user_name }}</strong> has send a suggestion</p>
+                                </div>
+                                <div>
+                                    <p class="tx-11 text-muted d-block">{{ $suggestions->created_at->diffForHumans() }}</p>
+                                </div>
+                            @endforeach
+                            @if(Auth::user()->receiverSuggestionsMessage->count() == 0)
+                                <div class="d-flex justify-content-center">
+                                    <h4>There is no Notifications</h4>
+                                </div>
+                            @endif
+                        </div>
+                        <div class="modal-footer">
                         </div>
                     </div>
                 </div>

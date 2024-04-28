@@ -39,7 +39,9 @@ class UserRepository implements UserRepositoryInterface
     public function getUsersWithoutAuthenticatedUser()
     {
         // TODO: Implement getUsersWithoutAuthenticatedUser() method.
-        $users = User::where('id', '!=', Auth::id())->get([
+        $users = User::where('id', '!=', Auth::id())
+            ->where('status', '!=', 0)
+            ->get([
             'user_name',
             'id',
             'gender_id'
@@ -52,6 +54,7 @@ class UserRepository implements UserRepositoryInterface
         // TODO: Implement findUserByUserName() method.
         $result = User::where('user_name', 'LIKE', '%'.$user_name.'%')
             ->where('id', '!=', Auth::id())
+            ->where('status', '!=', 0)
             ->get([
             'user_name',
             'id',
@@ -79,6 +82,49 @@ class UserRepository implements UserRepositoryInterface
     {
         // TODO: Implement getAdminIdByRandom() method.
         $admins = User::where('role_id', 2)->get('id');
+        return $admins;
+    }
+
+    public function getAllUsers()
+    {
+        // TODO: Implement getAllUsers() method.
+        return User::where('id', '!=', Auth::id())->where('role_id', '!=', 1)->get([
+            'user_name',
+            'email',
+            'id',
+            'role_id',
+            'status'
+        ]);
+    }
+
+    public function updateUserStatus(int $status, User $user)
+    {
+        // TODO: Implement updateUserStatus() method.
+        $user->status = $status;
+        $user->save();
+    }
+
+    public function changeUserRole(int $role, User $user)
+    {
+        // TODO: Implement changeUserRole() method.
+        $user->role_id = $role;
+        $user->save();
+    }
+
+    public function getUsersForStatistics()
+    {
+        // TODO: Implement getUsersForStatistics() method.
+        $users = User::where('role_id', '!=', 2)
+            ->where('role_id', '!=', 1)
+            ->count();
+        return $users;
+    }
+
+    public function getAdminsForStatistics()
+    {
+        // TODO: Implement getAdminsForStatistics() method.
+        $admins = User::where('role_id', 2)
+            ->count();
         return $admins;
     }
 }

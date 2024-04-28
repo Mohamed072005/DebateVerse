@@ -319,12 +319,6 @@
                                 </div>
                                 <!-- end modal -->
                             </div>
-                            <div class="w-50 d-flex justify-content-center">
-                                <div class="w-50 d-flex button-container justify-content-center pt-3 pb-3 rounded">
-                                    <button class="action-btn-2 custom-plus-icon" type="button" data-bs-toggle="modal" data-bs-target="#updateModal">Debate</button>
-                                </div>
-
-                            </div>
                         </div>
                         @foreach($debates as $debate)
                         <div class="card rounded mb-3">

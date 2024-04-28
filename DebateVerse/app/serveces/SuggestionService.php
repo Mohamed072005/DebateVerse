@@ -13,7 +13,8 @@ class SuggestionService implements SuggestionServiceInterface
         foreach ($adminsId as $admin) {
             $arrId[] = $admin->id;
         }
-        $random = rand($arrId[0],count($arrId));
-        return $random;
+        $endArray = count($arrId) - 1;
+        $random = rand(0,$endArray);
+        return $arrId[$random];
     }
 }

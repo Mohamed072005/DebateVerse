@@ -33,6 +33,21 @@
         .navBottom {
             margin-top: 60px;
         }
+
+        .aside div {
+            height: 50px;
+            width: 100%;
+            margin-bottom: 10px;
+            border-radius: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .aside div:hover {
+            background-color: #e2e8f0;
+            color: #1a202c;
+        }
     </style>
 </head>
 <body>
@@ -43,26 +58,15 @@
                 <h2 class="text-primary">Debate<span class="text-dark">Verse</span></h2>
             </a>
         </div>
-        <div class="dropdown d-none d-md-block">
-            <button class="btn btn-dark dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                actions
+        <div class="position-relative d-flex align-items-center ms-auto">
+            <button id="button" class="d-flex align-items-center focus:outline-none position-relative p-2" data-bs-toggle="modal" data-bs-target="#exampleModal" style="background: none; border: none">
+                <i class="fa fa-bell fa-2x"></i>
+                @if(Auth::user()->notificationReceiver->count() > 0)
+                    <span class="position-absolute top-0 end-0 bg-danger text-white rounded-circle w-5 h-5 d-flex align-items-center justify-content-center text-xs" style="width: 23px">
+                    {{ Auth::user()->notificationReceiver->count() }}
+                </span>
+                @endif
             </button>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                <li><a class="dropdown-item" href="#">Profile</a></li>
-                <li><a class="dropdown-item" href="#">Settings</a></li>
-                <li>
-                    <hr class="dropdown-divider">
-                </li>
-                <li><a class="dropdown-item" href="">Logout</a></li>
-                <li><a class="dropdown-item" href="">Login</a></li>
-                <li>
-                    <div class="offcanvas-content">
-                        <button class="dropdown-item" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">
-                            Aside
-                        </button>
-                    </div>
-                </li>
-            </ul>
         </div>
         <div class="offcanvas-content d-block d-md-none">
             <button class="btn btn-secondary d-flex justify-content-center" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">
@@ -72,20 +76,53 @@
 
         <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
             <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="offcanvasScrollingLabel">DebateVerse</h5>
+                <h5 class="offcanvas-title" id="offcanvasScrollingLabel">Menu</h5>
                 <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body">
                 <div class="">
                     <aside class="aside p-2">
                         <div class="">
-                            <a class="navbar-brand" href="{{ route('dashboard') }}">
-                                <h4 class="">Dashboard</h4>
+                            <a class="navbar-brand" href="{{ route('profile') }}">
+                                <h4 class="">Profile</h4>
+                            </a>
+                        </div>
+                        @if(Auth::user()->role_id == 1 || Auth::user()->role_id == 2)
+                            <div class="">
+                                <a class="navbar-brand" href="{{ route('dashboard') }}">
+                                    <h4 class="">Dashboard</h4>
+                                </a>
+                            </div>
+                        @endif
+                        @if(Auth::user()->role_id == 2)
+                            <div class="mt-3 d-flex align-items-center">
+                                <a data-bs-toggle="modal" href="#exampleModalToggle" class="navbar-brand">
+                                    <h5 class="text-muted d-flex"><i class="fa fa-cogs mr-1"></i> suggestion
+                                        @if(Auth::user()->receiverSuggestionsMessage->count() > 0)
+                                            <span class="ml-3 top-0 end-0 bg-danger text-white rounded-circle w-5 h-5 d-flex align-items-center justify-content-center text-xs" style="width: 23px">{{ Auth::user()->receiverSuggestionsMessage->count() }}</span>
+                                        @endif
+                                    </h5>
+                                </a>
+                            </div>
+                        @endif
+                        <div class="">
+                            <a class="navbar-brand" href="{{ route('friends') }}">
+                                <h4 class="">Friends</h4>
                             </a>
                         </div>
                         <div class="">
-                            <a class="navbar-brand" href="">
-                                <h4 class="">Your Tickets</h4>
+                            <a class="navbar-brand" href="{{ route('contact') }}">
+                                <h4 class="">Messenger</h4>
+                            </a>
+                        </div>
+                        <div class="">
+                            <a class="navbar-brand" href="{{ route('to.send.suggestions') }}">
+                                <h4 class="">Suggestions</h4>
+                            </a>
+                        </div>
+                        <div class="">
+                            <a class="navbar-brand" href="{{ route('logout') }}">
+                                <h4 class="">Logout</h4>
                             </a>
                         </div>
                     </aside>
@@ -94,11 +131,56 @@
         </div>
     </div>
 </header>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                @foreach(Auth::user()->notificationReceiver as $notification)
+                    <div class="rounded d-flex justify-content-evenly align-items-center mb-2" style="background-color: #c1c1c1">
+                        <p class="mt-3"><strong>{{ $notification->notificationSender->user_name }}</strong> {{ $notification->message }}</p>
+                        <form action="{{ route('destroy.notification', $notification->id) }}" method="post">
+                            @csrf
+                            @method('DELETE')
+                            <button style="border: none; background: none">
+                                <i class="fa fa-trash text-danger"></i>
+                            </button>
+                        </form>
+                    </div>
+                    <div>
+                        <p class="tx-11 text-muted d-block">{{ $notification->created_at->diffForHumans() }}</p>
+                    </div>
+                @endforeach
+                @if(Auth::user()->notificationReceiver->count() == 0)
+                    <div class="d-flex justify-content-center">
+                        <h4>There is no Notifications</h4>
+                    </div>
+                @else
+                    <div class="d-flex justify-content-end">
+                        <form action="{{ route('destroy.notifications') }}" method="post">
+                            @csrf
+                            @method('DELETE')
+                            <input type="hidden" name="deleteAll">
+                            <button class="btn">Delete All <i class="fa fa-trash text-danger"></i></button>
+                        </form>
+                    </div>
+                @endif
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Modal -->
+
+
 <div class="container-fluid navBottom border border-bottom">
     <div class="container d-flex justify-content-evenly pt-2 pb-2">
-        <a href="{{ route('dashboard') }}" class="navbar-a-hover navbar-brand">Statistics</a>
-        <a href="{{ route('tags') }}" class="navbar-a-hover navbar-brand">Tags</a>
-        <a href="" class="navbar-a-hover navbar-brand">Block Users</a>
+        @if(Auth::user()->role_id == 1)
+            <a href="{{ route('dashboard') }}" class="navbar-a-hover navbar-brand">Statistics</a>
+        @endif
+            <a href="{{ route('admin.suggestions') }}" class="navbar-a-hover navbar-brand">suggestion</a>
+            <a href="{{ route('tags') }}" class="navbar-a-hover navbar-brand">Tags</a>
+            <a href="{{ route('users') }}" class="navbar-a-hover navbar-brand">Users</a>
     </div>
 </div>
 <main>

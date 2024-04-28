@@ -573,7 +573,7 @@
         <div class="row app-one">
             <div class="conversation">
                 <div class="row heading">
-                    <div class="col-sm-2 col-md-1 col-xs-3 heading-avatar">
+                    <div class="col-sm-2 col-md-1 col-xs-3 col-3 heading-avatar">
                         <div class="heading-avatar-icon">
                             @if($user->gender_id == 1)
                                 <img src="{{ asset('asset/male.png') }}" alt="#">
@@ -582,7 +582,7 @@
                             @endif
                         </div>
                     </div>
-                    <div class="col-sm-1 col-xs-1 heading-name">
+                    <div class="col-sm-1 col-xs-1 col-8 heading-name">
                         <a href="{{ route('users.profile', $user->id) }}" class="navbar-brand heading-name-meta w-25">{{ $user->user_name }}</a>
                         <span class="heading-online">Online</span>
                     </div>
@@ -621,13 +621,13 @@
                 </div>
 
                 <div class="reply d-flex justify-content-center">
-                    <form action="{{ route('send.message', $user->id) }}" method="post" class="row w-100">
+                    <form action="{{ route('send.message', $user->id) }}" method="post" class="row d-flex w-100">
                         @csrf
                         @method('POST')
-                        <div class="col-sm-10 col-xs-9 reply-main">
+                        <div class="col-sm-9 col-xs-9 col-10 reply-main">
                             <textarea class="form-control" name="message" rows="1" id="comment"></textarea>
                         </div>
-                        <div class="col-sm-1 col-xs-1 reply-send">
+                        <div class="col-sm-1 col-xs-1 col-1 reply-send">
                             <button type="submit" style="border: none; background: none">
                                 <i class="fa fa-send fa-2x" aria-hidden="true"></i>
                             </button>

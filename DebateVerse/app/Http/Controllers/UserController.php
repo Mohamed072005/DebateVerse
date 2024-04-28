@@ -21,6 +21,12 @@ class UserController extends Controller
         $this->userRepository = $userRepository;
     }
 
+    public function toUsers()
+    {
+        $users = $this->userRepository->getAllUsers();
+        return view('admin.users', compact('users'));
+    }
+
     public function index()
     {
         $debates = Debate::where('user_id', Auth::id())->get();
@@ -70,5 +76,25 @@ class UserController extends Controller
         }
         $users = $this->userRepository->findUserByUserName($user_name);
         return view('searchView', compact('users'));
+    }
+
+    public function usersBan(User $user)
+    {
+        if ($user->status == 1){
+            $this->userRepository->updateUserStatus(0, $user);
+            return redirect()->route('users')->with('successResponse', 'User Banned Successfully');
+        }
+        $this->userRepository->updateUserStatus(1, $user);
+        return redirect()->route('users')->with('successResponse', 'User UnBanned Successfully');
+    }
+
+    public function changeRole(User $user)
+    {
+        if ($user->role_id == 2){
+            $this->userRepository->changeUserRole(3, $user);
+            return redirect()->route('users')->with('successResponse', 'User Role Changed Successfully');
+        }
+        $this->userRepository->changeUserRole(2, $user);
+        return redirect()->route('users')->with('successResponse', 'User Role Changed Successfully');
     }
 }
