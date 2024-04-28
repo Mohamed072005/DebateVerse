@@ -10,9 +10,8 @@ class TagController extends Controller
     //
     public function store(Request $request)
     {
-        $request->tag_name = '#' . $request->tag_name;
         $request->validate([
-            'tag_name' => ['required', 'unique:tags,tag_name']
+            'tag_name' => ['required', 'unique:tags']
         ]);
 
         $tag = $request->tag_name;

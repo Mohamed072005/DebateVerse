@@ -201,8 +201,6 @@
                                 @endif
                                 <h4 class="text-center h6 mt-2">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</h4>
                                 <p class="label label-success bg-danger mb-2 d-block">{{ Auth::user()->role->role_name }}</p>
-                                <button class="btn btn-sm btn-flash-border-primary mt-1">Follow</button>
-                                <button class="btn btn-sm btn-flash-border-primary mt-2">Message</button>
                                     <div class="mt-2">
                                         <!-- Button trigger modal -->
                                         <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#updateModal">
@@ -232,10 +230,6 @@
                                                             <div class="form-outline mb-4">
                                                                 <label class="form-label" for="">User Name</label>
                                                                 <input type="text" name="user_name" class="form-control form-control-md" value="{{ Auth::user()->user_name }}" />
-                                                            </div>
-                                                            <div class="form-outline mb-4">
-                                                                <label class="form-label" for="">Email</label>
-                                                                <input type="text" name="email" class="form-control form-control-md" value="{{ Auth::user()->email }}" />
                                                             </div>
                                                             <div class="form-outline mb-4">
                                                                 <label class="form-label" for="">Phone Number</label>
@@ -300,19 +294,6 @@
                                                         <input class="form-control" name="img" type="file" id="formFile">
                                                     </div>
                                                     <div class="mb-3">
-                                                        Categorie
-                                                    </div>
-                                                    <div class="form-outline mb-4 row d-flex justify-content-evenly">
-                                                        @foreach($categories as $categorie)
-                                                            <div class="col-4 form-check">
-                                                                <input class="form-check-input" type="radio" name="categorie_name" value="{{ $categorie->id }}" id="{{ $categorie->id }}">
-                                                                <label class="form-check-label" for="{{ $categorie->id }}">
-                                                                    {{ $categorie->categorie_name }}
-                                                                </label>
-                                                            </div>
-                                                        @endforeach
-                                                    </div>
-                                                    <div class="mb-3">
                                                         Tags
                                                     </div>
                                                     <div class="form-outline mb-4 row d-flex justify-content-evenly">
@@ -338,12 +319,6 @@
                                 </div>
                                 <!-- end modal -->
                             </div>
-                            <div class="w-50 d-flex justify-content-center">
-                                <div class="w-50 d-flex button-container justify-content-center pt-3 pb-3 rounded">
-                                    <button class="action-btn-2 custom-plus-icon" type="button" data-bs-toggle="modal" data-bs-target="#updateModal">Debate</button>
-                                </div>
-
-                            </div>
                         </div>
                         @foreach($debates as $debate)
                         <div class="card rounded mb-3">
@@ -358,7 +333,7 @@
                                         <div class="ml-2">
                                             <a href="{{ route('profile') }}" class="navbar-brand">
                                                 <p>{{ Auth::user()->user_name }}</p></a>
-                                            <p class="tx-11 text-muted">1 min ago</p>
+                                            <p class="tx-11 text-muted">{{ $debate->created_at->diffForHumans() }}</p>
                                         </div>
                                     </div>
                                     <div class="dropdown">
@@ -408,23 +383,6 @@
                                                                 <input class="form-control" name="img" type="file" id="formFile">
                                                             </div>
                                                             <div class="mb-3">
-                                                                Categorie
-                                                            </div>
-                                                            <div class="form-outline mb-4 row d-flex justify-content-evenly">
-                                                                @foreach($categories as $categorie)
-                                                                    <div class="col-4 form-check">
-                                                                        @if($debate->categorie_id == $categorie->id)
-                                                                            <input class="form-check-input" type="radio" name="categorie_name" value="{{ $categorie->id }}" id="{{ $categorie->id }}" checked>
-                                                                        @else
-                                                                            <input class="form-check-input" type="radio" name="categorie_name" value="{{ $categorie->id }}" id="{{ $categorie->id }}" >
-                                                                        @endif
-                                                                        <label class="form-check-label" for="{{ $categorie->id }}">
-                                                                            {{ $categorie->categorie_name }}
-                                                                        </label>
-                                                                    </div>
-                                                                @endforeach
-                                                            </div>
-                                                            <div class="mb-3">
                                                                 Tags
                                                             </div>
                                                             <div class="form-outline mb-4 row d-flex justify-content-evenly">
@@ -442,7 +400,7 @@
                                                                         @endphp
                                                                         <input class="form-check-input" type="checkbox" name="tag_name[]" value="{{ $tag->id }}" id="{{ $tag->id }}" @if($isChecked) checked @endif>
                                                                         <label class="form-check-label" for="{{ $tag->id }}">
-                                                                            {{ $tag->tag_name }}
+                                                                            #{{ $tag->tag_name }}
                                                                         </label>
                                                                     </div>
                                                                 @endforeach
@@ -466,7 +424,7 @@
                                 <p class="mb-3 tx-14">{{ $debate->content }}</p>
                                 <div>
                                     @foreach($debate->tags as $debateTag)
-                                        <a href="" class="tag-link">{{ $debateTag->tag_name }}</a>
+                                        <a href="" class="tag-link">#{{ $debateTag->tag_name }}</a>
                                     @endforeach
                                 </div>
                                 <div class="d-flex justify-content-center">
@@ -474,36 +432,175 @@
                                 </div>
                             </div>
                             <div class="card-footer">
+                                <div class="w-100 mb-4 d-flex">
+                                    @if(!($debate->with + $debate->against) == 0)
+                                        <div class="bg-success text-white text-center rounded-left-pill" style="width: {{ $debate->with / ($debate->with + $debate->against) * 100}}%">
+                                            {{ $debate->with / ($debate->with + $debate->against) * 100 }} %
+                                        </div>
+                                        <div class="bg-danger text-white text-center rounded-right-pill" style="width: {{ $debate->against / ($debate->with + $debate->against) * 100 }}%">
+                                            {{ $debate->against / ($debate->with + $debate->against) * 100 }} %
+                                        </div>
+                                    @else
+                                        <div class="w-50 bg-success text-white text-center rounded-left-pill">
+                                            0 %
+                                        </div>
+                                        <div class="w-50 bg-danger text-white text-center rounded-right-pill">
+                                            0 %
+                                        </div>
+                                    @endif
+
+                                </div>
                                 <div class="d-flex justify-content-evenly post-actions">
-                                    <a href="javascript:;"
-                                       class="debate-actions d-flex align-items-center justify-content-center rounded-pill w-25 text-muted mr-4">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                             stroke-linejoin="round" class="feather feather-heart icon-md">
-                                            <path
-                                                d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                                        </svg>
-                                        <p class="d-none d-md-block ml-2">Like</p>
-                                    </a>
-                                    <a href="javascript:;"
-                                       class="debate-actions d-flex align-items-center justify-content-center rounded-pill w-25 text-muted mr-4">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                             stroke-linejoin="round" class="feather feather-message-square icon-md">
+                                    <div class="d-flex align-items-center justify-content-center rounded-pill w-25 text-muted">
+                                        @php
+                                            $vote = false;
+                                                foreach($debate->voting as $voting){
+                                                    if ($voting->user_id == Auth::id() && $voting->status == 1){
+                                                        $vote = true;
+                                                    }else{
+                                                        $vote = false;
+                                                    }
+                                                }
+                                        @endphp
+                                        @if($vote == true)
+                                            <a href="{{ route('with', $debate->id) }}" class="debate-vote-left-checked d-flex justify-content-center navbar-brand text-success  w-50">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="35" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                                </svg>
+                                            </a>
+                                        @else
+                                            <a href="{{ route('with', $debate->id) }}" class="debate-vote-left d-flex justify-content-center navbar-brand text-success  w-50">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="35" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                                </svg>
+                                            </a>
+                                        @endif
+
+                                        @php
+                                            $vote = false;
+                                                foreach($debate->voting as $voting){
+                                                    if ($voting->user_id == Auth::id() && $voting->status == 0){
+                                                        $vote = true;
+                                                    }else{
+                                                        $vote = false;
+                                                    }
+                                                }
+                                        @endphp
+                                        @if($vote == true)
+                                            <a href="{{ route('against', $debate->id) }}" class="debate-vote-right-checked d-flex justify-content-center navbar-brand text-danger w-50">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="35" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                                                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                                                </svg>
+                                            </a>
+                                        @else
+                                            <a href="{{ route('against', $debate->id) }}" class="debate-vote-right d-flex justify-content-center navbar-brand text-danger w-50">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="35" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                                                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                                                </svg>
+                                            </a>
+                                        @endif
+                                    </div>
+                                    <!-- Comments Button -->
+                                    <button type="button" class="debate-actions d-flex align-items-center justify-content-center rounded-pill w-25 text-muted mr-4" data-bs-toggle="modal" data-bs-target="#commentModal{{ $debate->id }}" style="border: none;">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-message-square icon-md">
                                             <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
                                         </svg>
-                                        <p class="d-none d-md-block ml-2">Comment</p>
-                                    </a>
-                                    <a href="javascript:;"
-                                       class="debate-actions d-flex align-items-center justify-content-center rounded-pill w-25 text-muted">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                             stroke-linejoin="round" class="feather feather-share icon-md">
+                                        Comment: {{ $debate->comments->count() }}
+                                    </button>
+                                    <!-- Comments Modal -->
+
+                                    <div class="modal fade" id="commentModal{{ $debate->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Comments</h1>
+                                                    <button type="button" class="btn-close close-update-modal" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="d-flex justify-content-center">
+                                                        <div class="rounded" style="width: 85%; height: 250px; background-color: #b4b3b3; overflow: auto">
+                                                            @foreach($debate->comments as $comment)
+                                                                <div class="bg-light w-75 rounded d-flex  p-1 m-2">
+                                                                    <div class="d-flex justify-content-center align-items-start mr-2">
+                                                                        @if($comment->user->gender_id == 1)
+                                                                            <img class="img-xs rounded-circle" src="{{ asset('asset/male.png') }}" alt="">
+                                                                        @else
+                                                                            <img class="img-xs rounded-circle" src="{{ asset('asset/female.png') }}" alt="">
+                                                                        @endif
+                                                                    </div>
+                                                                    <div class="w-75">
+                                                                        <h5>{{ $comment->user->user_name }}</h5>
+                                                                        <div class="w-100">
+                                                                            <p class="text-dark comment-text" id="comment{{ $comment->id }}">{{ $comment->content }}</p>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="d-flex justify-content-between">
+                                                                        @if($comment->user_id == Auth::id())
+                                                                            <form action="{{ route('destroy.comment', $comment->id) }}" method="post">
+                                                                                @csrf
+                                                                                @method('DELETE')
+                                                                                <button type="submit" style="background: none; border: none"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                                                            </form>
+                                                                            <div>
+                                                                                <button type="submit" class="update-button" style="background: none; border: none"><i class="fa fa-pencil-square-o" data-comment-id="{{ $comment->id }}" data-debate-id="{{ $comment->debate_id }}" aria-hidden="true"></i></button>
+                                                                            </div>
+
+                                                                        @else
+                                                                            <i class="fa fa-flag" aria-hidden="true"></i>
+                                                                        @endif
+                                                                    </div>
+
+                                                                </div>
+                                                            @endforeach
+                                                        </div>
+                                                    </div>
+                                                    <form action="{{ route('comment', $debate->id) }}" id="insert{{ $debate->id }}" method="post" class="mt-2 myForm">
+                                                        @csrf
+                                                        @method('POST')
+                                                        <div>
+                                                            <div>
+                                                                <div class="form-outline d-flex justify-content-center mb-4">
+                                                                    <input type="hidden" name="requestFromUser" value="3d92ff394a72e41dd935d8099ad93fb3e81e32a0a0c4c2c4a76f0fbc46b62a3d">
+                                                                    <input type="text" class="w-75 form-control" name="comment" placeholder="Type comment..." />
+                                                                    <button type="submit" class="btn btn-outline-primary rounded-circle ml-2"><span><i class="fa fa-send"></i></span></button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                    <form action="" id="update{{ $debate->id }}" method="post" class="mt-2 updateForm">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <div>
+                                                            <div>
+                                                                <div class="form-outline d-flex justify-content-center mb-4">
+                                                                    <input type="hidden" name="requestFromUser" value="3d92ff394a72e41dd935d8099ad93fb3e81e32a0a0c4c2c4a76f0fbc46b62a3d">
+                                                                    <input type="text" id="addANote{{ $debate->id }}" class="w-75 form-control" name="comment" placeholder="Update comment..." />
+                                                                </div>
+                                                                <div class="d-flex justify-content-center">
+                                                                    <button type="submit" class="btn btn-outline-primary rounded-circle ml-2"><span><i class="fa fa-send"></i></span></button>
+                                                                    <button type="button" class="btn btn-outline-secondary rounded-circle mr-2 close-update-modal"><span><i class="fa fa-times"></i></span></button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary close-update-modal" data-bs-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- end Comments Modal -->
+                                    <button class="debate-actions d-flex align-items-center justify-content-center rounded-pill w-25 text-muted">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-share icon-md">
                                             <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
                                             <polyline points="16 6 12 2 8 6"></polyline>
                                             <line x1="12" y1="2" x2="12" y2="15"></line>
                                         </svg>
-                                    </a>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -525,11 +622,48 @@
         </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-{{--    <script>--}}
-{{--        let inputHidden = document.getElementsByName('hiddenValue').value;--}}
-{{--        let textarea = document.getElementsByName('textarea');--}}
-{{--        textarea.value = inputHidden;--}}
-{{--    </script>--}}
+    <script>
+        let buttonUpdate = document.querySelectorAll('.update-button');
+        let closeUpdateModal = document.querySelectorAll('.close-update-modal');
+        let updateForm = document.querySelectorAll('.updateForm');
+        let commentForm = document.querySelectorAll('.myForm');
+
+
+        updateForm.forEach(function (form){
+            form.style.display = 'none'
+        });    closeUpdateModal.forEach(function (closeButton){
+            closeButton.addEventListener('click', function (){
+                commentForm.forEach(function (form){
+                    form.style.display = 'block'
+                });
+                updateForm.forEach(function (form){
+                    form.style.display = 'none'
+                });
+            });
+        });
+        buttonUpdate.forEach(function (button){
+            button.addEventListener('click', function (event){
+
+                const clickedButton = event.target;
+                const commentId = clickedButton.dataset.commentId;
+                const debateId = clickedButton.dataset.debateId;
+
+                let formComment = document.getElementById('insert' + debateId);
+                let formUpdate = document.getElementById('update' + debateId);
+
+                formComment.style.display = 'none';
+                formUpdate.style.display = 'block';
+
+                let comment = document.getElementById('comment' + commentId).innerText;
+                let commentInput = document.getElementById('addANote' + debateId);
+                let formAction = "http://127.0.0.1:8000/update/comment/" + commentId;
+                formUpdate.action = "";
+                formUpdate.action = formAction;
+                commentInput.value = comment;
+                console.log(comment);
+            });
+        });
+    </script>
     @if($errors->any() || session('successResponse') !== null)
         @if($errors->any())
             @foreach($errors->all() as $error)
@@ -561,9 +695,7 @@
             let first_name = document.forms['myForm']['first_name'].value;
             let last_name = document.forms['myForm']['last_name'].value;
             let user_name = document.forms['myForm']['user_name'].value;
-            let email = document.forms['myForm']['email'].value;
             let phNumber = document.forms['myForm']['phoneNumber'].value;
-            let emailRegex = /^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
             let phRegex = /^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$/;
 
             if (first_name === '' || last_name === '') {
@@ -571,16 +703,6 @@
                     position: "top-end",
                     icon: "warning",
                     title: "Your Name is empty",
-                    showConfirmButton: false,
-                    timer: 2000
-                });
-            }
-
-            if (!emailRegex.test(email)) {
-                return Swal.fire({
-                    position: "top-end",
-                    icon: "warning",
-                    title: "Your Email is not valid",
                     showConfirmButton: false,
                     timer: 2000
                 });

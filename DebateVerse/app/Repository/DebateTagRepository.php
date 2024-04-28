@@ -1,15 +1,14 @@
 <?php
 
-namespace App\serveces;
+namespace App\Repository;
 
 use App\Models\Debate;
 use App\Models\DebateTag;
-use App\serveces\DebateTagServiceInterface;
+use App\Repository\DebateTagRepositoryInterface;
 use Illuminate\Support\Collection;
 
-class DebateTagService implements DebateTagServiceInterface
+class DebateTagRepository implements DebateTagRepositoryInterface
 {
-
     public function store(array $tags, int $debate)
     {
         // TODO: Implement store() method.
@@ -27,5 +26,20 @@ class DebateTagService implements DebateTagServiceInterface
         foreach ($debateTag as $deleted){
             $deleted->delete();
         }
+    }
+
+    public function getByDebateByTag(int $tag)
+    {
+        // TODO: Implement getByDebateByTag() method.
+        $debates = DebateTag::where('tag_id', $tag)
+            ->get();
+        return $debates;
+    }
+
+    public function getAllDebate()
+    {
+        // TODO: Implement getAllDebate() method.
+        $debates = Debate::all();
+        return $debates;
     }
 }

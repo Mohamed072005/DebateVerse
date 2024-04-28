@@ -39,7 +39,63 @@
             color: #1a202c;
         }
 
+        .debate-actions {
+            border: none;
+        }
+
         .debate-actions:hover {
+            background-color: #b1b2bf;
+        }
+
+        .rounded-right-pill{
+            border-bottom-right-radius: 50px;
+            border-top-right-radius: 50px;
+        }
+
+        .rounded-left-pill {
+            border-top-left-radius: 50px;
+            border-bottom-left-radius: 50px;
+        }
+
+        .debate-vote-left {
+            background: none;
+            border: none;
+            border-right: 0.3px solid #b1b2bf;
+            border-bottom-left-radius: 50px;
+            border-top-left-radius: 50px;
+        }
+
+        .debate-vote-right {
+            background: none;
+            border: none;
+            border-left: 0.3px solid #b1b2bf;
+            border-bottom-right-radius: 50px;
+            border-top-right-radius: 50px;
+        }
+
+        .debate-vote-right-checked{
+            background-color: #f43757;
+            color: white;
+            border-bottom-right-radius: 50px;
+            border-top-right-radius: 50px;
+        }
+
+        .debate-vote-left-checked{
+            background-color: #58f84e;
+            color: white;
+            border-bottom-left-radius: 50px;
+            border-top-left-radius: 50px;
+        }
+
+        .debate-actions:hover {
+            background-color: #b1b2bf;
+        }
+
+        .debate-vote-left:hover {
+            background-color: #b1b2bf;
+        }
+
+        .debate-vote-right:hover {
             background-color: #b1b2bf;
         }
     </style>
@@ -52,33 +108,16 @@
                 <h2 class="text-primary">Debate<span class="text-dark">Verse</span></h2>
             </a>
         </div>
-        <div class="dropdown d-none d-md-block">
-            <button class="btn btn-dark dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                @if(!Auth::user()->first_name == null)
-                    {{ Auth::user()->first_name }}
-                @else
-                    actions
+
+        <div class="position-relative d-flex align-items-center ms-auto">
+            <button id="button" class="d-flex align-items-center focus:outline-none position-relative p-2" data-bs-toggle="modal" data-bs-target="#exampleModal" style="background: none; border: none">
+                <i class="fa fa-bell fa-2x"></i>
+                @if(Auth::user()->notificationReceiver->count() > 0)
+                    <span class="position-absolute top-0 end-0 bg-danger text-white rounded-circle w-5 h-5 d-flex align-items-center justify-content-center text-xs" style="width: 23px">
+                    {{ Auth::user()->notificationReceiver->count() }}
+                </span>
                 @endif
             </button>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                @if(!Auth::id() == null)
-                    <li><a class="dropdown-item" href="#">Profile</a></li>
-                    <li><a class="dropdown-item" href="#">Settings</a></li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-                    <li><a class="dropdown-item" href="{{ route('logout') }}">Logout</a></li>
-                @else
-                    <li><a class="dropdown-item" href="{{ route('to.login') }}">Login</a></li>
-                @endif
-                <li>
-                    <div class="offcanvas-content">
-                        <button class="dropdown-item" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">
-                            Aside
-                        </button>
-                    </div>
-                </li>
-            </ul>
         </div>
         <div class="offcanvas-content d-block d-md-none">
             <button class="btn btn-secondary d-flex justify-content-center" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">
@@ -88,20 +127,53 @@
 
         <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
             <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="offcanvasScrollingLabel">DebateVerse</h5>
+                <h5 class="offcanvas-title" id="offcanvasScrollingLabel">Menu</h5>
                 <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body">
                 <div class="">
                     <aside class="aside p-2">
                         <div class="">
-                            <a class="navbar-brand" href="{{ route('dashboard') }}">
-                                <h4 class="">Dashboard</h4>
+                            <a class="navbar-brand" href="{{ route('profile') }}">
+                                <h4 class="">Profile</h4>
+                            </a>
+                        </div>
+                        @if(Auth::user()->role_id == 1 || Auth::user()->role_id == 2)
+                            <div class="">
+                                <a class="navbar-brand" href="{{ route('dashboard') }}">
+                                    <h4 class="">Dashboard</h4>
+                                </a>
+                            </div>
+                        @endif
+                        @if(Auth::user()->role_id == 2)
+                            <div class="mt-3 d-flex align-items-center">
+                                <a data-bs-toggle="modal" href="#exampleModalToggle" class="navbar-brand">
+                                    <h5 class="text-muted d-flex"><i class="fa fa-cogs mr-1"></i> suggestion
+                                        @if(Auth::user()->receiverSuggestionsMessage->count() > 0)
+                                            <span class="ml-3 top-0 end-0 bg-danger text-white rounded-circle w-5 h-5 d-flex align-items-center justify-content-center text-xs" style="width: 23px">{{ Auth::user()->receiverSuggestionsMessage->count() }}</span>
+                                        @endif
+                                    </h5>
+                                </a>
+                            </div>
+                        @endif
+                        <div class="">
+                            <a class="navbar-brand" href="{{ route('friends') }}">
+                                <h4 class="">Friends</h4>
                             </a>
                         </div>
                         <div class="">
-                            <a class="navbar-brand" href="">
-                                <h4 class="">Your Tickets</h4>
+                            <a class="navbar-brand" href="{{ route('contact') }}">
+                                <h4 class="">Messenger</h4>
+                            </a>
+                        </div>
+                        <div class="">
+                            <a class="navbar-brand" href="{{ route('to.send.suggestions') }}">
+                                <h4 class="">Suggestions</h4>
+                            </a>
+                        </div>
+                        <div class="">
+                            <a class="navbar-brand" href="{{ route('logout') }}">
+                                <h4 class="">Logout</h4>
                             </a>
                         </div>
                     </aside>
@@ -110,6 +182,48 @@
         </div>
     </div>
 </header>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                @foreach(Auth::user()->notificationReceiver as $notification)
+                    <div class="rounded d-flex justify-content-evenly align-items-center mb-2" style="background-color: #c1c1c1">
+                        <p class="mt-3"><strong>{{ $notification->notificationSender->user_name }}</strong> {{ $notification->message }}</p>
+                        <form action="{{ route('destroy.notification', $notification->id) }}" method="post">
+                            @csrf
+                            @method('DELETE')
+                            <button style="border: none; background: none">
+                                <i class="fa fa-trash text-danger"></i>
+                            </button>
+                        </form>
+                    </div>
+                    <div>
+                        <p class="tx-11 text-muted d-block">{{ $notification->created_at->diffForHumans() }}</p>
+                    </div>
+                @endforeach
+                @if(Auth::user()->notificationReceiver->count() == 0)
+                    <div class="d-flex justify-content-center">
+                        <h4>There is no Notifications</h4>
+                    </div>
+                @else
+                    <div class="d-flex justify-content-end">
+                        <form action="{{ route('destroy.notifications') }}" method="post">
+                            @csrf
+                            @method('DELETE')
+                            <input type="hidden" name="deleteAll">
+                            <button class="btn">Delete All <i class="fa fa-trash text-danger"></i></button>
+                        </form>
+                    </div>
+                @endif
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Modal -->
+
+
 <main class="container">
     @yield('content')
 </main>

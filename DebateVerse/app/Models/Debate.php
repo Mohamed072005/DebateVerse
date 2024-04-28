@@ -13,7 +13,6 @@ class Debate extends Model
         'content',
         'img',
         'user_id',
-        'categorie_id'
     ];
 
     public function tags()
@@ -29,5 +28,10 @@ class Debate extends Model
     public function voting()
     {
         return $this->hasMany(Voting::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 }

@@ -61,7 +61,6 @@ class VotingController extends Controller
 
             $debateExists->against = $debateExists->against + 1;
             $debateExists->save();
-
             return redirect()->route('home')->with('successResponse', 'Rejecting this Debate successfully');
         }
 

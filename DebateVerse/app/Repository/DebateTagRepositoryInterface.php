@@ -1,13 +1,14 @@
 <?php
 
-namespace App\serveces;
+namespace App\Repository;
 
 use App\Models\Debate;
-use App\Models\DebateTag;
 use Illuminate\Support\Collection;
 
-interface DebateTagServiceInterface
+interface DebateTagRepositoryInterface
 {
     public function store(Array $tags, int $debate);
     public function destroy(Collection $debateTag);
+    public function getByDebateByTag(int $tag);
+    public function getAllDebate();
 }
